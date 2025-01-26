@@ -2,6 +2,8 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.spotless)
+    alias(libs.plugins.kotlin.plugin.serialization)
+    id("androidx.navigation.safeargs")
 }
 
 // Android configuration ---------------------------------------------------------------------------
@@ -99,12 +101,28 @@ dependencies {
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
 
+    // API usage
+    implementation(libs.retrofit)
+
+    // KotlinX libraries
+    implementation(libs.kotlinx.serialization.json)
+    implementation(libs.kotlinx.coroutines.core)
+
+    // DI
+    implementation(platform(libs.koin.bom))
+    implementation(libs.koin.android)
+    implementation(libs.koin.androidx.compose)
+    implementation(libs.koin.androidx.compose.navigation)
+
     // Testing dependencies
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(platform(libs.androidx.compose.bom))
     androidTestImplementation(libs.androidx.ui.test.junit4)
+
+    // Navigation (Jetpack Compose)
+    implementation(libs.androidx.navigation.compose)
 
     // Debugging
     debugImplementation(libs.androidx.ui.tooling)
