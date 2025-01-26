@@ -45,6 +45,7 @@ captures/
 .idea/libraries
 .idea/cachescide
 .idea/caches
+.idea/copyright
 /.idea/navEditor.xml
 
 # Android Studio 3 in .gitignore file.
