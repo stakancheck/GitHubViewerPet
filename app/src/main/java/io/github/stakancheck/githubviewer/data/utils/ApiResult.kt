@@ -49,13 +49,12 @@ sealed interface ApiResult<out T> {
          * Executes the given [requestFunc] and wraps its result into an [ApiResult].
          *
          * @param R The type of the data returned in case of success.
-         * @param E The type of the error response.
          * @param requestFunc The function to execute.
          * @return An [ApiResult] representing the result of the [requestFunc].
          */
-        suspend inline fun <reified R, reified E : Throwable> withCatching(
+        suspend inline fun <reified R> withCatching(
             dispatcher: CoroutineDispatcher,
-            crossinline requestFunc: () -> R
+            crossinline requestFunc: suspend () -> R
         ): ApiResult<R> {
             return withContext(dispatcher) {
                 try {

@@ -18,6 +18,7 @@ package io.github.stakancheck.githubviewer.data.sources.remote
 import androidx.annotation.IntRange
 import io.github.stakancheck.githubviewer.data.dto.GHApiSearchRepositoriesResponseDTO
 import io.github.stakancheck.githubviewer.data.dto.GHApiSearchUsersResponseDTO
+import kotlinx.coroutines.Dispatchers
 import retrofit2.http.GET
 import retrofit2.http.Query
 
@@ -68,4 +69,8 @@ interface GitHubApiSource {
         @Query("page") page: Int,
         @Query("per_page") @IntRange(1, 100) perPage: Int
     ): GHApiSearchUsersResponseDTO
+
+    companion object {
+        val DEFAULT_DISPATCHER = Dispatchers.IO
+    }
 }

@@ -20,7 +20,7 @@ import io.github.stakancheck.githubviewer.common.error.Result
 import io.github.stakancheck.githubviewer.data.dto.GHApiSearchRepositoriesResponseDTO
 import io.github.stakancheck.githubviewer.data.dto.GHApiSearchUsersResponseDTO
 
-interface Repository {
+interface GitHubRepository {
     suspend fun searchRepositories(
         query: String,
         sort: String,

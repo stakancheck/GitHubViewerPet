@@ -15,12 +15,16 @@
 
 package io.github.stakancheck.githubviewer.di
 
+import io.github.stakancheck.githubviewer.data.repository.GitHubRepositoryImpl
 import io.github.stakancheck.githubviewer.data.sources.remote.GitHubApiSource
+import io.github.stakancheck.githubviewer.domain.repository.GitHubRepository
 import io.github.stakancheck.githubviewer.utils.Constants
 import kotlinx.serialization.json.Json
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
+import org.koin.core.context.startKoin
+import org.koin.dsl.KoinAppDeclaration
 import org.koin.dsl.module
 import retrofit2.Retrofit
 import retrofit2.converter.kotlinx.serialization.asConverterFactory
@@ -31,12 +35,12 @@ val json = Json {
 }
 
 /**
- * Network module.
+ * Data module.
  *
- * Provides [Retrofit] and [GitHubApiSource].
+ * Provides all data-related dependencies.
  */
-private val networkModule = module {
-    single {
+private val dataModule = module {
+    single<Retrofit> {
         val client = OkHttpClient.Builder()
             .addInterceptor(HttpLoggingInterceptor().apply {
                 level = HttpLoggingInterceptor.Level.BODY
@@ -54,10 +58,23 @@ private val networkModule = module {
             ).build()
     }
 
-    single {
+    single<GitHubApiSource> {
         get<Retrofit>().create(GitHubApiSource::class.java)
     }
+
+    // Repositories
+    single<GitHubRepository> { GitHubRepositoryImpl(get(), get()) }
 }
 
+private val appModules = listOf(dataModule)
 
-
+fun initKoin(
+    appDeclaration: KoinAppDeclaration = {},
+) {
+    startKoin {
+        appDeclaration()
+        modules(
+            appModules
+        )
+    }
+}
