@@ -3,18 +3,28 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.spotless)
     alias(libs.plugins.kotlin.plugin.serialization)
+    alias(libs.plugins.compose.compiler)
     id("androidx.navigation.safeargs")
 }
 
 // Android configuration ---------------------------------------------------------------------------
 android {
     namespace = "io.github.stakancheck.githubviewer"
-    compileSdk = 34
+    compileSdk =
+        libs.versions.android.compileSdk
+            .get()
+            .toInt()
 
     defaultConfig {
         applicationId = "io.github.stakancheck.githubviewer"
-        minSdk = 24
-        targetSdk = 34
+        minSdk =
+            libs.versions.android.minSdk
+                .get()
+                .toInt()
+        targetSdk =
+            libs.versions.android.targetSdk
+                .get()
+                .toInt()
         versionCode = 1
         versionName = "1.0"
 
@@ -42,9 +52,7 @@ android {
     }
     buildFeatures {
         compose = true
-    }
-    composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.1"
+        buildConfig = true
     }
     packaging {
         resources {
@@ -102,7 +110,9 @@ dependencies {
     implementation(libs.androidx.material3)
 
     // API usage
-    implementation(libs.retrofit)
+    implementation(libs.retrofit2)
+    implementation(libs.converter.kotlinx.serialization)
+    implementation(libs.logging.interceptor)
 
     // KotlinX libraries
     implementation(libs.kotlinx.serialization.json)
@@ -115,11 +125,14 @@ dependencies {
     implementation(libs.koin.androidx.compose.navigation)
 
     // Testing dependencies
-    testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(platform(libs.androidx.compose.bom))
     androidTestImplementation(libs.androidx.ui.test.junit4)
+    testImplementation(libs.junit.jupiter)
+    testRuntimeOnly(libs.junit.jupiter.engine)
+    testImplementation(libs.mockk)
+    testImplementation(libs.mockwebserver)
 
     // Navigation (Jetpack Compose)
     implementation(libs.androidx.navigation.compose)
