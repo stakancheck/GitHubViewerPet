@@ -25,6 +25,11 @@ import org.koin.dsl.module
 import retrofit2.Retrofit
 import retrofit2.converter.kotlinx.serialization.asConverterFactory
 
+
+val json = Json {
+    ignoreUnknownKeys = true
+}
+
 /**
  * Network module.
  *
@@ -36,9 +41,7 @@ private val networkModule = module {
             .addInterceptor(HttpLoggingInterceptor().apply {
                 level = HttpLoggingInterceptor.Level.BODY
             })
-            .build()
-
-        val json = Json { ignoreUnknownKeys = true }
+        .build()
         val contentType = "application/json".toMediaType()
 
         Retrofit.Builder()

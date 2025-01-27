@@ -50,6 +50,11 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
+    kotlin {
+        compilerOptions {
+            freeCompilerArgs.add("-Xwhen-guards")
+        }
+    }
     buildFeatures {
         compose = true
         buildConfig = true
