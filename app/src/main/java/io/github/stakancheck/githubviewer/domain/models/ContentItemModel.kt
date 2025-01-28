@@ -13,31 +13,20 @@
  * limitations under the License.
  */
 
-package io.github.stakancheck.githubviewer.data.dto
+package io.github.stakancheck.githubviewer.domain.models
 
-import kotlinx.serialization.SerialName
-import kotlinx.serialization.Serializable
 
-typealias GHApiRepositoryContentResponseDTO = List<ContentItemDTO>
+typealias ContentTree = List<ContentItemModel>
 
-@Serializable
-data class ContentItemDTO(
+data class ContentItemModel(
     val name: String,
     val path: String,
-    val sha: String,
-    val size: Int,
-    val url: String,
-    @SerialName("html_url") val htmlUrl: String,
-    @SerialName("git_url") val gitUrl: String,
-    @SerialName("download_url") val downloadUrl: String?,
-    val type: String,
-    @SerialName("_links") val links: LinksDTO
+    val size: String,
+    val htmlUrl: String,
+    val type: FileType,
 )
 
-
-@Serializable
-data class LinksDTO(
-    val self: String,
-    val git: String,
-    val html: String
-)
+enum class FileType {
+    FILE,
+    DIRECTORY
+}
