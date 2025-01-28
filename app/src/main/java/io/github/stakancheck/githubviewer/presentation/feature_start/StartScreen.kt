@@ -45,6 +45,7 @@ fun StartScreen(
     ) { innerPadding ->
         Column(
             modifier = Modifier
+                .fillMaxSize()
                 .padding(innerPadding)
                 .padding(Dimens.spaceMedium),
             verticalArrangement = Arrangement.Center,

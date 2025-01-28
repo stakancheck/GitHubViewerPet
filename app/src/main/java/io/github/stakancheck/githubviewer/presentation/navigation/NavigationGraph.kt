@@ -16,14 +16,14 @@
 package io.github.stakancheck.githubviewer.presentation.navigation
 
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import kotlinx.serialization.Serializable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import io.github.stakancheck.githubviewer.presentation.feature_search.SearchScreen
 import io.github.stakancheck.githubviewer.presentation.feature_start.StartScreen
+import kotlinx.serialization.Serializable
 
 
 sealed interface NavigationRoute {
@@ -53,8 +53,11 @@ fun MainNavigationHost() {
             )
         }
         composable<NavigationRoute.SearchScreen> {
-            Text(
-                text = "Search screen",
+            SearchScreen(
+                navigateToRepositoryScreen = { repositoryId ->
+                    navController.navigate(NavigationRoute.RepositoryScreen(repositoryId))
+                },
+                navigateBack = { navController.popBackStack() }
             )
         }
         composable<NavigationRoute.RepositoryScreen> {

@@ -6,4 +6,5 @@
     <string name="created_at">Создан:</string>
     <string name="updated_at">Обновлен:</string>
     <string name="description">Описание:</string>
+    <string name="search">Поиск</string>
 </resources>
