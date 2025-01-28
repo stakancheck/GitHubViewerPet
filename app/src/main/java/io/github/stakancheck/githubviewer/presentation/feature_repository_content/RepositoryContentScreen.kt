@@ -15,7 +15,9 @@
 
 package io.github.stakancheck.githubviewer.presentation.feature_repository_content
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -32,6 +34,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import io.github.stakancheck.githubviewer.domain.models.ContentTree
 import io.github.stakancheck.githubviewer.presentation.feature_repository_content.components.ContentItem
+import io.github.stakancheck.githubviewer.presentation.feature_repository_content.components.PlaceHolderContentItem
 import io.github.stakancheck.githubviewer.presentation.feature_repository_content.components.RepositoryContentTopAppBar
 import io.github.stakancheck.githubviewer.ui.values.Dimens
 import org.koin.androidx.compose.koinViewModel
@@ -51,20 +54,23 @@ fun RepositoryContentScreen(
     )
 
     val state by viewModel.state.collectAsState()
+    val path by viewModel.path.collectAsState()
 
     LaunchedEffect(Unit) {
         viewModel.onEvent(RepositoryContentContract.Event.OnStart)
     }
 
+    BackHandler {
+        viewModel.onEvent(RepositoryContentContract.Event.OnBackHandle)
+    }
+
     Scaffold(
         topBar = {
             RepositoryContentTopAppBar(
-                title = if (state is RepositoryContentContract.State.Success) {
-                    (state as RepositoryContentContract.State.Success).currentContentName
-                } else {
-                    repoFullName
-                },
-                onBackClick = navigateBack
+                title = if (path.isEmpty()) repoFullName else path.last().name,
+                onBackClick = {
+                    viewModel.onEvent(RepositoryContentContract.Event.OnBackHandle)
+                }
             )
         },
         contentWindowInsets = WindowInsets.safeDrawing,
@@ -72,7 +78,26 @@ fun RepositoryContentScreen(
         with(state) {
             when (this) {
                 RepositoryContentContract.State.Error -> {}
-                RepositoryContentContract.State.Loading -> {}
+                RepositoryContentContract.State.Loading -> {
+                    Column(
+                        modifier = Modifier
+                            .padding(innerPadding)
+                            .padding(top = Dimens.spaceSmall)
+                            .fillMaxWidth(),
+                    ) {
+                        repeat(5) {
+                            PlaceHolderContentItem(
+                                modifier = Modifier.fillMaxWidth()
+                            )
+
+                            HorizontalDivider(
+                                modifier = Modifier
+                                    .padding(horizontal = Dimens.spaceSmall)
+                                    .fillMaxWidth()
+                            )
+                        }
+                    }
+                }
                 is RepositoryContentContract.State.Success -> {
                     RepositoryContentsTree(
                         content = content,
@@ -84,8 +109,7 @@ fun RepositoryContentScreen(
                         }
                     )
                 }
-
-                RepositoryContentContract.State.Idle -> {}
+                else -> {}
             }
         }
 
@@ -101,7 +125,6 @@ private fun RepositoryContentsTree(
 ) {
     LazyColumn(
         modifier = modifier,
-        verticalArrangement = Arrangement.spacedBy(Dimens.spaceSmall),
         contentPadding = PaddingValues(
             vertical = Dimens.spaceSmall
         )

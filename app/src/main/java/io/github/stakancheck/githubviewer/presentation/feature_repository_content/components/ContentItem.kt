@@ -30,6 +30,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import io.github.stakancheck.githubviewer.domain.models.FileType
 import io.github.stakancheck.githubviewer.ui.components.Spacer
 import io.github.stakancheck.githubviewer.ui.icons.IconPack
@@ -53,37 +54,41 @@ fun ContentItem(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(Dimens.spaceSmall),
+                .padding(Dimens.spaceMedium),
             verticalAlignment = Alignment.CenterVertically,
         ) {
             Icon(
-                modifier = Modifier.size(IconSize.Small),
-                imageVector = when(type) {
+                modifier = Modifier.size(IconSize.Medium),
+                imageVector = when (type) {
                     FileType.FILE -> IconPack.File
                     FileType.DIRECTORY -> IconPack.Folder
                 },
                 contentDescription = type.toString()
             )
 
-            Spacer(Dimens.spaceSmall)
+            Spacer(Dimens.spaceMedium)
 
             Text(
                 modifier = Modifier
                     .weight(1f)
                     .alignByBaseline(),
                 text = name,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
                 style = MaterialTheme.typography.bodyMedium,
                 fontWeight = FontWeight.SemiBold
             )
 
-            Spacer(Dimens.spaceSmall)
+            if (type == FileType.FILE) {
+                Spacer(Dimens.spaceSmall)
 
-            Text(
-                modifier = Modifier.alignByBaseline(),
-                color = MaterialTheme.colorScheme.outline,
-                text = size,
-                style = MaterialTheme.typography.bodyLarge,
-            )
+                Text(
+                    modifier = Modifier.alignByBaseline(),
+                    color = MaterialTheme.colorScheme.outline,
+                    text = size,
+                    style = MaterialTheme.typography.bodyLarge,
+                )
+            }
         }
     }
 }

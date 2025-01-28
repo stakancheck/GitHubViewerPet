@@ -25,6 +25,7 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import io.github.stakancheck.githubviewer.ui.icons.IconPack
 import io.github.stakancheck.githubviewer.ui.icons.iconpack.ArrowLeft
 
@@ -44,8 +45,10 @@ fun RepositoryContentTopAppBar(
             ) {
                 Text(
                     text = it,
-                    style = MaterialTheme.typography.titleLarge,
+                    style = MaterialTheme.typography.titleMedium,
                     fontWeight = FontWeight.SemiBold,
+                    maxLines = 1,
+                    overflow = TextOverflow.Clip
                 )
             }
         },

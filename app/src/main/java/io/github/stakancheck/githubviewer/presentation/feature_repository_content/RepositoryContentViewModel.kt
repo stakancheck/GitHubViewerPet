@@ -17,10 +17,15 @@ package io.github.stakancheck.githubviewer.presentation.feature_repository_conte
 
 import android.util.Log
 import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.viewmodel.compose.viewModel
+import io.github.stakancheck.githubviewer.common.error.Result.Companion.isSuccess
 import io.github.stakancheck.githubviewer.common.error.ifError
 import io.github.stakancheck.githubviewer.common.error.ifSuccess
+import io.github.stakancheck.githubviewer.domain.models.ContentItemModel
+import io.github.stakancheck.githubviewer.domain.models.FileType
 import io.github.stakancheck.githubviewer.domain.usecases.RetrieveRepositoryContentsUseCase
 import io.github.stakancheck.githubviewer.presentation.base.BaseViewModel
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
@@ -36,26 +41,64 @@ class RepositoryContentViewModel(
         MutableStateFlow<RepositoryContentContract.State>(RepositoryContentContract.State.Idle)
     val state = _state.asStateFlow()
 
+    private val _path = MutableStateFlow<List<ContentItemModel>>(emptyList())
+    val path = _path.asStateFlow()
+
+    private var loadJob: Job? = null
+
     override fun onEvent(event: RepositoryContentContract.Event) {
         when (event) {
-            RepositoryContentContract.Event.OnStart -> handleOpenContentItem("")
-            is RepositoryContentContract.Event.OnOpenContentItem -> handleOpenContentItem(event.item.path)
+            RepositoryContentContract.Event.OnStart -> loadContents()
+            is RepositoryContentContract.Event.OnOpenContentItem -> handleOpenContentItem(event.item)
+            RepositoryContentContract.Event.OnBackHandle -> handleBack()
         }
     }
 
-    private fun handleOpenContentItem(path: String) {
+    private fun handleBack() {
         viewModelScope.launch {
+            _path.value.ifEmpty {
+                launchEffect(RepositoryContentContract.Effect.NavigateBack)
+                return@launch
+            }
+            _path.update { it.dropLast(1) }
+            loadContents()
+        }
+    }
+
+    private fun handleOpenContentItem(item: ContentItemModel) {
+        when (item.type) {
+            FileType.DIRECTORY -> {
+                _path.update { it + item }
+                loadContents()
+            }
+            FileType.FILE -> viewModelScope.launch {
+                launchEffect(RepositoryContentContract.Effect.NavigateToUrl(item.htmlUrl))
+            }
+        }
+    }
+
+    private fun loadContents() {
+        loadJob?.cancel()
+        loadJob = viewModelScope.launch {
             _state.value = RepositoryContentContract.State.Loading
-            with(retrieveRepositoryContentsUseCase(repoFullName, path)) {
+            with(retrieveRepositoryContentsUseCase(repoFullName, getEncodedPath())) {
                 ifSuccess { result ->
-                    _state.update { RepositoryContentContract.State.Success(path, result.data) }
+                    _state.update {
+                        RepositoryContentContract.State.Success(
+                            content = result.data
+                        )
+                    }
                 }
                 ifError {
                     _state.update { RepositoryContentContract.State.Error }
                 }
             }
-            Log.d(TAG, "handleOpenContentItem: path -> $path")
+            Log.d(TAG, "handleOpenContentItem: path -> $_path")
         }
+    }
+
+    private fun getEncodedPath(): String {
+        return _path.value.joinToString("/") { it.path }
     }
 
     companion object {

@@ -21,15 +21,19 @@ import io.github.stakancheck.githubviewer.domain.models.ContentTree
 object RepositoryContentContract {
     sealed interface Event {
         object OnStart : Event
+        object OnBackHandle : Event
         data class OnOpenContentItem(val item: ContentItemModel) : Event
     }
 
-    sealed interface Effect
+    sealed interface Effect {
+        object NavigateBack : Effect
+        data class NavigateToUrl(val url: String) : Effect
+    }
 
     sealed interface State {
         object Idle : State
         object Loading : State
         object Error : State
-        data class Success(val currentContentName: String, val content: ContentTree) : State
+        data class Success(val content: ContentTree) : State
     }
 }
