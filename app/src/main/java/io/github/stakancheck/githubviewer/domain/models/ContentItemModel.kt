@@ -27,6 +27,6 @@ data class ContentItemModel(
 )
 
 enum class FileType {
+    DIRECTORY,
     FILE,
-    DIRECTORY
 }

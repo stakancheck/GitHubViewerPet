@@ -19,7 +19,7 @@ import android.util.Log
 import androidx.lifecycle.viewModelScope
 import io.github.stakancheck.githubviewer.common.error.ifError
 import io.github.stakancheck.githubviewer.common.error.ifSuccess
-import io.github.stakancheck.githubviewer.domain.usecases.RetriveRepositoryContentsUseCase
+import io.github.stakancheck.githubviewer.domain.usecases.RetrieveRepositoryContentsUseCase
 import io.github.stakancheck.githubviewer.presentation.base.BaseViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -29,7 +29,7 @@ import kotlinx.coroutines.launch
 
 class RepositoryContentViewModel(
     private val repoFullName: String,
-    private val retrieveRepositoryContentsUseCase: RetriveRepositoryContentsUseCase,
+    private val retrieveRepositoryContentsUseCase: RetrieveRepositoryContentsUseCase,
 ) : BaseViewModel<RepositoryContentContract.Event, RepositoryContentContract.Effect>() {
 
     private val _state =

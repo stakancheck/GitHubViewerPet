@@ -22,7 +22,7 @@ import io.github.stakancheck.githubviewer.domain.mappers.ContentItemDTOToContent
 import io.github.stakancheck.githubviewer.domain.models.ContentTree
 import io.github.stakancheck.githubviewer.domain.repository.GitHubRepository
 
-class RetriveRepositoryContentsUseCase(
+class RetrieveRepositoryContentsUseCase(
     private val gitHubRepository: GitHubRepository
 ) {
     suspend operator fun invoke(
@@ -32,8 +32,8 @@ class RetriveRepositoryContentsUseCase(
         return gitHubRepository.getRepositoryContent(
             repoFullName = repoFullName,
             path = path
-        ).map {
-            it.map(ContentItemDTOToContentItemModelMapper::invoke)
+        ).map { dto ->
+            dto.map(ContentItemDTOToContentItemModelMapper::invoke).sortedBy { it.type }
         }
     }
 }

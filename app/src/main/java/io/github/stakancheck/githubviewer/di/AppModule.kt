@@ -19,7 +19,7 @@ import io.github.stakancheck.githubviewer.data.repository.GitHubRepositoryImpl
 import io.github.stakancheck.githubviewer.data.sources.remote.GitHubApiSource
 import io.github.stakancheck.githubviewer.data.utils.BearerTokenInterceptor
 import io.github.stakancheck.githubviewer.domain.repository.GitHubRepository
-import io.github.stakancheck.githubviewer.domain.usecases.RetriveRepositoryContentsUseCase
+import io.github.stakancheck.githubviewer.domain.usecases.RetrieveRepositoryContentsUseCase
 import io.github.stakancheck.githubviewer.domain.usecases.SearchRepositoriesAndUsersUseCase
 import io.github.stakancheck.githubviewer.presentation.feature_repository_content.RepositoryContentViewModel
 import io.github.stakancheck.githubviewer.presentation.feature_search.SearchScreenViewModel
@@ -95,7 +95,7 @@ private val domainModule = module {
     }
 
     factory {
-        RetriveRepositoryContentsUseCase(
+        RetrieveRepositoryContentsUseCase(
             gitHubRepository = get()
         )
     }
