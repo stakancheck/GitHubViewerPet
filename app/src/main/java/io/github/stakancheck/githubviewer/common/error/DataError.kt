@@ -36,8 +36,11 @@ sealed interface DataError : RootError {
 @RawRes
 fun DataError.getAnimationResource(): Int {
     return when(this) {
-        else -> {
+        DataError.Network.NO_INTERNET -> {
             R.raw.bad_connection_animation
+        }
+        else -> {
+            R.raw.unknown_error_animation
         }
     }
 }
@@ -57,7 +60,7 @@ fun DataError.getErrorMessageResource(): Int {
 }
 
 @StringRes
-fun DataError.getErrorDesctriptionResource(): Int {
+fun DataError.getErrorDescriptionResource(): Int {
     return when(this) {
         DataError.Network.REQUEST_TIMEOUT -> R.string.error_request_timeout_description
         DataError.Network.NO_INTERNET -> R.string.error_no_internet_description

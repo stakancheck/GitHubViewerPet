@@ -41,7 +41,7 @@ data class RepositoryDTO(
     val url: String,
     @SerialName("created_at") val createdAt: String,
     @SerialName("updated_at") val updatedAt: String,
-    @SerialName("pushed_at") val pushedAt: String,
+    @SerialName("pushed_at") val pushedAt: String? = null,
     val homepage: String? = null,
     val size: Int,
     @SerialName("stargazers_count") val stargazersCount: Int,

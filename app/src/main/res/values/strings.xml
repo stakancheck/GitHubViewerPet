@@ -22,7 +22,7 @@
     <string name="error_unauthorized">Неавторизованный доступ</string>
     <string name="error_server_error">Ошибка сервера</string>
     <string name="error_forbidden">Доступ запрещен</string>
-    <string name="error_serialization">Ошибка се��иализации</string>
+    <string name="error_serialization">Ошибка сериализации</string>
     <string name="error_cancelled">Запрос отменен</string>
     <string name="error_unknown">Неизвестная ошибка</string>
 
@@ -30,7 +30,7 @@
     <string name="error_no_internet_description">Проверьте подключение к интернету и попробуйте снова.</string>
     <string name="error_unauthorized_description">Пожалуйста, войдите в систему для доступа к этому ресурсу.</string>
     <string name="error_server_error_description">Произошла ошибка на сервере. Пожалуйста, попробуйте позже.</string>
-    <string name="error_forbidden_description">У вас нет прав для доступа к этому ресурсу.</string>
+    <string name="error_forbidden_description">Мы не смогли получить ответ от ресурса, попробуйте позже.</string>
     <string name="error_serialization_description">Произошла ошибка при обработке данных. Пожалуйста, попробуйте позже.</string>
     <string name="error_cancelled_description">Запрос был отменен. Пожалуйста, попробуйте снова.</string>
     <string name="error_unknown_description">Произошла неизвестная ошибка. Пожалуйста, попробуйте позже.</string>

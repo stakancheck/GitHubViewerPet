@@ -15,8 +15,6 @@
 
 package io.github.stakancheck.githubviewer.presentation.feature_search
 
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.core.animateSizeAsState
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.WindowInsets
@@ -42,7 +40,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import io.github.stakancheck.githubviewer.R
 import io.github.stakancheck.githubviewer.common.error.getAnimationResource
-import io.github.stakancheck.githubviewer.common.error.getErrorDesctriptionResource
+import io.github.stakancheck.githubviewer.common.error.getErrorDescriptionResource
 import io.github.stakancheck.githubviewer.common.error.getErrorMessageResource
 import io.github.stakancheck.githubviewer.domain.models.RepositoryModel
 import io.github.stakancheck.githubviewer.domain.models.SearchResultsItem
@@ -115,7 +113,7 @@ fun SearchScreen(
                             AnimationStateViewBox(this.error.getAnimationResource())
                         },
                         title = stringResource(this.error.getErrorMessageResource()),
-                        description = stringResource(this.error.getErrorDesctriptionResource()),
+                        description = stringResource(this.error.getErrorDescriptionResource()),
                         modifier = Modifier.padding(innerPadding),
                     )
                 }
