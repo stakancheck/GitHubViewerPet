@@ -19,6 +19,7 @@ import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -102,17 +103,7 @@ private fun RepositoryCardContent(
         }
 
         if (openedDetails) {
-            UserCard(
-                avatarUrl = model.avatarUrl,
-                name = model.ownerName,
-                cardColors = CardDefaults.cardColors(
-                    containerColor = MaterialTheme.colorScheme.surfaceVariant,
-                    contentColor = MaterialTheme.colorScheme.onSurfaceVariant,
-                ),
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                // TODO: Navigate to user profile
-            }
+            RepositoryDetails(model)
         }
     }
 }
@@ -158,6 +149,57 @@ private fun RepositoryCardHeader(
                 text = forksCount.toString(),
             )
         }
+    }
+}
+
+
+@Composable
+private fun ColumnScope.RepositoryDetails(
+    model: RepositoryModel,
+) {
+    UserCard(
+        avatarUrl = model.avatarUrl,
+        name = model.ownerName,
+        cardColors = CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.surfaceVariant,
+            contentColor = MaterialTheme.colorScheme.onSurfaceVariant,
+        ),
+        modifier = Modifier.fillMaxWidth()
+    ) {
+        // TODO: Navigate to user profile
+    }
+
+    Spacer(Dimens.spaceSmall)
+
+
+    TextBadge(
+        parameter = stringResource(R.string.created_at),
+        value = model.createdAt,
+    )
+
+    Spacer(Dimens.spaceSmall)
+
+    TextBadge(
+        parameter = stringResource(R.string.updated_at),
+        value = model.updatedAt,
+    )
+
+    if (model.description != null) {
+        Spacer(Dimens.spaceSmall)
+
+        Text(
+            text = stringResource(R.string.description),
+            style = MaterialTheme.typography.titleSmall,
+            fontWeight = FontWeight.SemiBold,
+        )
+
+        Spacer(Dimens.spaceExtraSmall)
+
+        Text(
+            text = model.description,
+            color = MaterialTheme.colorScheme.outline,
+            style = MaterialTheme.typography.bodyMedium,
+        )
     }
 }
 

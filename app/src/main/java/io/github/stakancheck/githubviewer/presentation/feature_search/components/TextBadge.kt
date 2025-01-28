@@ -16,54 +16,33 @@
 package io.github.stakancheck.githubviewer.presentation.feature_search.components
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import io.github.stakancheck.githubviewer.ui.components.Spacer
-import io.github.stakancheck.githubviewer.ui.icons.IconPack
-import io.github.stakancheck.githubviewer.ui.icons.iconpack.Eye
-import io.github.stakancheck.githubviewer.ui.icons.iconpack.Star
-import io.github.stakancheck.githubviewer.ui.theme.GitHubViewerPetTheme
 import io.github.stakancheck.githubviewer.ui.values.Dimens
-import io.github.stakancheck.githubviewer.ui.values.IconSize
 import io.github.stakancheck.githubviewer.ui.values.shapes
 
 
 @Composable
-fun InfoBadge(
+fun TextBadge(
     modifier: Modifier = Modifier,
-    text: String,
-    icon: ImageVector,
-    onClick: (() -> Unit) ? = null,
+    parameter: String,
+    value: String,
 ) {
     Box(
         modifier = modifier
             .clip(shapes.small)
             .background(MaterialTheme.colorScheme.surfaceVariant)
-            .then(
-                if (onClick != null) {
-                    Modifier.clickable { onClick() }
-                } else {
-                    Modifier
-                }
-            ),
     ) {
         CompositionLocalProvider(LocalContentColor provides MaterialTheme.colorScheme.onSurfaceVariant) {
             Row (
@@ -71,43 +50,17 @@ fun InfoBadge(
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 Text(
-                    text = text,
+                    color = MaterialTheme.colorScheme.outline,
+                    text = parameter,
                     style = MaterialTheme.typography.bodyMedium,
-                    fontWeight = FontWeight.SemiBold,
                 )
 
                 Spacer(Dimens.spaceExtraSmall)
 
-                Icon(
-                    modifier = Modifier.size(IconSize.Small),
-                    imageVector = icon,
-                    contentDescription = text,
-                )
-            }
-        }
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun InfoBadgePreview() {
-    Column {
-        GitHubViewerPetTheme(darkTheme = false) {
-            Surface {
-                InfoBadge(
-                    text = "112",
-                    icon = IconPack.Star,
-                    onClick = { /* Do something */ }
-                )
-            }
-        }
-
-        GitHubViewerPetTheme(darkTheme = true) {
-            Surface {
-                InfoBadge(
-                    text = "12",
-                    icon = IconPack.Eye,
-                    onClick = { /* Do something */ }
+                Text(
+                    text = value,
+                    style = MaterialTheme.typography.bodyMedium,
+                    fontWeight = FontWeight.SemiBold,
                 )
             }
         }
