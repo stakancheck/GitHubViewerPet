@@ -16,7 +16,6 @@
 package io.github.stakancheck.githubviewer.presentation.feature_repository_content
 
 import androidx.activity.compose.BackHandler
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.WindowInsets
@@ -36,6 +35,7 @@ import io.github.stakancheck.githubviewer.domain.models.ContentTree
 import io.github.stakancheck.githubviewer.presentation.feature_repository_content.components.ContentItem
 import io.github.stakancheck.githubviewer.presentation.feature_repository_content.components.PlaceHolderContentItem
 import io.github.stakancheck.githubviewer.presentation.feature_repository_content.components.RepositoryContentTopAppBar
+import io.github.stakancheck.githubviewer.presentation.utils.observeAsEffects
 import io.github.stakancheck.githubviewer.ui.values.Dimens
 import org.koin.androidx.compose.koinViewModel
 import org.koin.core.parameter.parametersOf
@@ -55,6 +55,18 @@ fun RepositoryContentScreen(
 
     val state by viewModel.state.collectAsState()
     val path by viewModel.path.collectAsState()
+
+    viewModel.effects.observeAsEffects {
+        when (it) {
+            is RepositoryContentContract.Effect.NavigateToUrl -> {
+                navigateToUrl(it.url)
+            }
+
+            RepositoryContentContract.Effect.NavigateBack -> {
+                navigateBack()
+            }
+        }
+    }
 
     LaunchedEffect(Unit) {
         viewModel.onEvent(RepositoryContentContract.Event.OnStart)
@@ -79,25 +91,13 @@ fun RepositoryContentScreen(
             when (this) {
                 RepositoryContentContract.State.Error -> {}
                 RepositoryContentContract.State.Loading -> {
-                    Column(
+                    LoadingPlaceHolder(
                         modifier = Modifier
                             .padding(innerPadding)
-                            .padding(top = Dimens.spaceSmall)
-                            .fillMaxWidth(),
-                    ) {
-                        repeat(5) {
-                            PlaceHolderContentItem(
-                                modifier = Modifier.fillMaxWidth()
-                            )
-
-                            HorizontalDivider(
-                                modifier = Modifier
-                                    .padding(horizontal = Dimens.spaceSmall)
-                                    .fillMaxWidth()
-                            )
-                        }
-                    }
+                            .fillMaxWidth()
+                    )
                 }
+
                 is RepositoryContentContract.State.Success -> {
                     RepositoryContentsTree(
                         content = content,
@@ -109,10 +109,33 @@ fun RepositoryContentScreen(
                         }
                     )
                 }
+
                 else -> {}
             }
         }
 
+    }
+}
+
+
+@Composable
+private fun LoadingPlaceHolder(
+    modifier: Modifier = Modifier,
+) {
+    Column(
+        modifier = modifier.padding(top = Dimens.spaceSmall),
+    ) {
+        repeat(5) {
+            PlaceHolderContentItem(
+                modifier = Modifier.fillMaxWidth()
+            )
+
+            HorizontalDivider(
+                modifier = Modifier
+                    .padding(horizontal = Dimens.spaceSmall)
+                    .fillMaxWidth()
+            )
+        }
     }
 }
 
