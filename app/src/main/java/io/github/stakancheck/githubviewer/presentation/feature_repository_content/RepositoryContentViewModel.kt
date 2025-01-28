@@ -17,8 +17,6 @@ package io.github.stakancheck.githubviewer.presentation.feature_repository_conte
 
 import android.util.Log
 import androidx.lifecycle.viewModelScope
-import androidx.lifecycle.viewmodel.compose.viewModel
-import io.github.stakancheck.githubviewer.common.error.Result.Companion.isSuccess
 import io.github.stakancheck.githubviewer.common.error.ifError
 import io.github.stakancheck.githubviewer.common.error.ifSuccess
 import io.github.stakancheck.githubviewer.domain.models.ContentItemModel
@@ -71,6 +69,7 @@ class RepositoryContentViewModel(
                 _path.update { it + item }
                 loadContents()
             }
+
             FileType.FILE -> viewModelScope.launch {
                 launchEffect(RepositoryContentContract.Effect.NavigateToUrl(item.htmlUrl))
             }
@@ -89,8 +88,8 @@ class RepositoryContentViewModel(
                         )
                     }
                 }
-                ifError {
-                    _state.update { RepositoryContentContract.State.Error }
+                ifError { result ->
+                    _state.update { RepositoryContentContract.State.Error(result.error) }
                 }
             }
             Log.d(TAG, "handleOpenContentItem: path -> $_path")

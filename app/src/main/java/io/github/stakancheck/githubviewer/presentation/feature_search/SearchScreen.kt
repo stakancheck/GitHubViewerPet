@@ -46,10 +46,10 @@ import io.github.stakancheck.githubviewer.domain.models.RepositoryModel
 import io.github.stakancheck.githubviewer.domain.models.SearchResultsItem
 import io.github.stakancheck.githubviewer.domain.models.UserModel
 import io.github.stakancheck.githubviewer.domain.utils.ListState
-import io.github.stakancheck.githubviewer.presentation.feature_search.components.AnimationStateViewBox
+import io.github.stakancheck.githubviewer.presentation.common.components.AnimationStateViewBox
 import io.github.stakancheck.githubviewer.presentation.feature_search.components.RepositoryCard
 import io.github.stakancheck.githubviewer.presentation.feature_search.components.SearchBar
-import io.github.stakancheck.githubviewer.presentation.feature_search.components.StateInfo
+import io.github.stakancheck.githubviewer.presentation.common.components.StateInfo
 import io.github.stakancheck.githubviewer.presentation.feature_search.components.UserCard
 import io.github.stakancheck.githubviewer.ui.components.ShimmerPlaceHolder
 import io.github.stakancheck.githubviewer.ui.values.Dimens

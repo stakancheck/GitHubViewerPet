@@ -13,7 +13,7 @@
  * limitations under the License.
  */
 
-package io.github.stakancheck.githubviewer.presentation.feature_search.components
+package io.github.stakancheck.githubviewer.presentation.common.components
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth

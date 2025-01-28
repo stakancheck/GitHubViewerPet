@@ -15,6 +15,7 @@
 
 package io.github.stakancheck.githubviewer.presentation.feature_repository_content
 
+import io.github.stakancheck.githubviewer.common.error.DataError
 import io.github.stakancheck.githubviewer.domain.models.ContentItemModel
 import io.github.stakancheck.githubviewer.domain.models.ContentTree
 
@@ -33,7 +34,7 @@ object RepositoryContentContract {
     sealed interface State {
         object Idle : State
         object Loading : State
-        object Error : State
+        data class Error(val error: DataError) : State
         data class Success(val content: ContentTree) : State
     }
 }

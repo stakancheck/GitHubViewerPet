@@ -31,7 +31,13 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
+import io.github.stakancheck.githubviewer.common.error.getAnimationResource
+import io.github.stakancheck.githubviewer.common.error.getErrorDescriptionResource
+import io.github.stakancheck.githubviewer.common.error.getErrorMessageResource
 import io.github.stakancheck.githubviewer.domain.models.ContentTree
+import io.github.stakancheck.githubviewer.presentation.common.components.AnimationStateViewBox
+import io.github.stakancheck.githubviewer.presentation.common.components.StateInfo
 import io.github.stakancheck.githubviewer.presentation.feature_repository_content.components.ContentItem
 import io.github.stakancheck.githubviewer.presentation.feature_repository_content.components.PlaceHolderContentItem
 import io.github.stakancheck.githubviewer.presentation.feature_repository_content.components.RepositoryContentTopAppBar
@@ -89,7 +95,16 @@ fun RepositoryContentScreen(
     ) { innerPadding ->
         with(state) {
             when (this) {
-                RepositoryContentContract.State.Error -> {}
+                is RepositoryContentContract.State.Error -> {
+                    StateInfo(
+                        icon = {
+                            AnimationStateViewBox(error.getAnimationResource())
+                        },
+                        title = stringResource(error.getErrorMessageResource()),
+                        description = stringResource(error.getErrorDescriptionResource()),
+                        modifier = Modifier.padding(innerPadding),
+                    )
+                }
                 RepositoryContentContract.State.Loading -> {
                     LoadingPlaceHolder(
                         modifier = Modifier
