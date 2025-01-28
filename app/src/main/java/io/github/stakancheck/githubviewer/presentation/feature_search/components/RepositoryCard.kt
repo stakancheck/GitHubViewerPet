@@ -18,6 +18,7 @@ package io.github.stakancheck.githubviewer.presentation.feature_search.component
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
@@ -108,7 +109,6 @@ private fun RepositoryCardContent(
 
         DetailsButton(
             openedDetails = openedDetails,
-            modifier = Modifier.fillMaxWidth(),
         ) {
             openedDetails = !openedDetails
         }
@@ -236,7 +236,10 @@ private fun DetailsButton(
     Row(
         modifier = modifier
             .clip(shapes.extraSmall)
-            .clickable { onClick() },
+            .clickable(
+                interactionSource = remember { MutableInteractionSource() },
+                indication = null,
+            ) { onClick() },
         verticalAlignment = Alignment.CenterVertically
     ) {
         Text(
