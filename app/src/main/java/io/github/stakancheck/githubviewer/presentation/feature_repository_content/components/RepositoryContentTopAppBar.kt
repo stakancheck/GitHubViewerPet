@@ -15,6 +15,7 @@
 
 package io.github.stakancheck.githubviewer.presentation.feature_repository_content.components
 
+import androidx.compose.animation.AnimatedContent
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -22,6 +23,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import io.github.stakancheck.githubviewer.ui.icons.IconPack
 import io.github.stakancheck.githubviewer.ui.icons.iconpack.ArrowLeft
@@ -30,15 +32,22 @@ import io.github.stakancheck.githubviewer.ui.icons.iconpack.ArrowLeft
 @Composable
 fun RepositoryContentTopAppBar(
     title: String,
-    onBackClick: () -> Unit
+    modifier: Modifier = Modifier,
+    onBackClick: () -> Unit,
 ) {
     TopAppBar(
+        modifier = modifier,
         title = {
-            Text(
-                text = title,
-                style = MaterialTheme.typography.titleLarge,
-                fontWeight = FontWeight.SemiBold,
-            )
+            AnimatedContent(
+                title,
+                label = "titleTopBarAnimation"
+            ) {
+                Text(
+                    text = it,
+                    style = MaterialTheme.typography.titleLarge,
+                    fontWeight = FontWeight.SemiBold,
+                )
+            }
         },
         navigationIcon = {
             IconButton(onClick = onBackClick) {
