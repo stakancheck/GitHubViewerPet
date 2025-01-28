@@ -18,6 +18,7 @@ package io.github.stakancheck.githubviewer.domain.mappers
 import io.github.stakancheck.githubviewer.data.dto.RepositoryDTO
 import io.github.stakancheck.githubviewer.domain.models.RepositoryModel
 import io.github.stakancheck.githubviewer.domain.models.UserModel
+import io.github.stakancheck.githubviewer.domain.utils.DateTimeFormatter
 
 object RepositoryDTOToRepositoryModelMapper {
     operator fun invoke(dto: RepositoryDTO): RepositoryModel {
@@ -35,8 +36,8 @@ object RepositoryDTOToRepositoryModelMapper {
             stargazersCount = dto.stargazersCount,
             watchersCount = dto.watchersCount,
             forksCount = dto.forksCount,
-            createdAt = dto.createdAt,
-            updatedAt = dto.updatedAt,
+            createdAt = DateTimeFormatter(dto.createdAt),
+            updatedAt = DateTimeFormatter(dto.updatedAt),
             description = dto.description,
         )
     }
