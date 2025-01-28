@@ -31,6 +31,7 @@ class ApiThrowableToDataErrorMapper {
                 is CancellationException -> DataError.Network.CANCELLED
                 is HttpException -> when (throwable.code()) {
                     401 -> DataError.Network.UNAUTHORIZED
+                    403 -> DataError.Network.FORBIDDEN
                     500 -> DataError.Network.SERVER_ERROR
                     408 -> DataError.Network.REQUEST_TIMEOUT
                     else -> DataError.Network.UNKNOWN

@@ -15,12 +15,8 @@
 
 package io.github.stakancheck.githubviewer.data.utils
 
-import io.github.stakancheck.githubviewer.di.json
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
-import kotlinx.serialization.SerializationException
-import kotlinx.serialization.json.Json
-import okio.IOException
 import retrofit2.HttpException
 
 /**

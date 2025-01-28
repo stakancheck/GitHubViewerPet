@@ -21,6 +21,7 @@ sealed interface DataError : RootError {
         NO_INTERNET,
         UNAUTHORIZED,
         SERVER_ERROR,
+        FORBIDDEN,
         SERIALIZATION,
         CANCELLED,
         UNKNOWN,
