@@ -18,6 +18,7 @@ package io.github.stakancheck.githubviewer.presentation.navigation
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalUriHandler
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -40,6 +41,9 @@ sealed interface NavigationRoute {
 @Composable
 fun MainNavigationHost() {
     val navController = rememberNavController()
+
+    val localUriHandler = LocalUriHandler.current
+
     NavHost(
         modifier = Modifier.fillMaxSize(),
         navController = navController,
@@ -56,6 +60,9 @@ fun MainNavigationHost() {
             SearchScreen(
                 navigateToRepositoryScreen = { repositoryId ->
                     navController.navigate(NavigationRoute.RepositoryScreen(repositoryId))
+                },
+                navigateToUrl = {
+                    localUriHandler.openUri(it)
                 },
                 navigateBack = { navController.popBackStack() }
             )

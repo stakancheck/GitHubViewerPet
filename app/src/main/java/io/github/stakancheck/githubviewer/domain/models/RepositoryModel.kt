@@ -18,8 +18,7 @@ package io.github.stakancheck.githubviewer.domain.models
 data class RepositoryModel(
     val id: Int,
     val name: String,
-    val ownerName: String?,
-    val avatarUrl: String?,
+    val owner: UserModel?,
     val stargazersCount: Int,
     val watchersCount: Int,
     val forksCount: Int,

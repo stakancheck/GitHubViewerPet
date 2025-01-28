@@ -17,20 +17,27 @@ package io.github.stakancheck.githubviewer.domain.mappers
 
 import io.github.stakancheck.githubviewer.data.dto.RepositoryDTO
 import io.github.stakancheck.githubviewer.domain.models.RepositoryModel
+import io.github.stakancheck.githubviewer.domain.models.UserModel
 
 object RepositoryDTOToRepositoryModelMapper {
     operator fun invoke(dto: RepositoryDTO): RepositoryModel {
         return RepositoryModel(
             id = dto.id,
             name = dto.name,
-            ownerName = dto.owner?.login,
-            avatarUrl = dto.owner?.avatarUrl,
+            owner = dto.owner?.let {
+                UserModel(
+                    id = it.id,
+                    login = it.login,
+                    avatarUrl = it.avatarUrl,
+                    url = it.htmlUrl
+                )
+            },
             stargazersCount = dto.stargazersCount,
             watchersCount = dto.watchersCount,
             forksCount = dto.forksCount,
             createdAt = dto.createdAt,
             updatedAt = dto.updatedAt,
-            description  = dto.description,
+            description = dto.description,
         )
     }
 }

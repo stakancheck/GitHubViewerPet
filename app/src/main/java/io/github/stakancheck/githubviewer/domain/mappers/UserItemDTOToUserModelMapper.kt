@@ -23,7 +23,8 @@ object UserItemDTOToUserModelMapper {
         return UserModel(
             id = dto.id,
             login = dto.login,
-            avatarUrl = dto.avatarUrl
+            avatarUrl = dto.avatarUrl,
+            url = dto.htmlUrl
         )
     }
 }

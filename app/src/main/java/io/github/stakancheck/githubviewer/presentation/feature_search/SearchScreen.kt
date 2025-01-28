@@ -175,6 +175,11 @@ private fun ResultsList(
                         onClick = {
                             onRepositoryClick(it)
                         },
+                        onUserCLick = {
+                            if (it.owner != null) {
+                                onUserClick(it.owner)
+                            }
+                        },
                         modifier = Modifier.fillMaxWidth(),
                     )
                 }

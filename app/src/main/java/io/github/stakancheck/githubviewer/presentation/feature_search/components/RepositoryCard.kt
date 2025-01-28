@@ -68,6 +68,7 @@ fun RepositoryCard(
         contentColor = MaterialTheme.colorScheme.onSurface,
     ),
     onClick: () -> Unit,
+    onUserCLick: () -> Unit,
 ) {
     ElevatedCard(
         modifier = modifier,
@@ -78,6 +79,7 @@ fun RepositoryCard(
         RepositoryCardContent(
             model = model,
             modifier = Modifier.padding(Dimens.spaceMedium),
+            onUserCLick = onUserCLick,
         )
     }
 }
@@ -87,6 +89,7 @@ fun RepositoryCard(
 private fun RepositoryCardContent(
     model: RepositoryModel,
     modifier: Modifier = Modifier,
+    onUserCLick: () -> Unit,
 ) {
     var openedDetails by rememberSaveable { mutableStateOf(false) }
 
@@ -111,7 +114,10 @@ private fun RepositoryCardContent(
         }
 
         if (openedDetails) {
-            RepositoryDetails(model)
+            RepositoryDetails(
+                model = model,
+                onUserCLick = onUserCLick
+            )
         }
     }
 }
@@ -165,14 +171,15 @@ private fun RepositoryCardHeader(
 @Composable
 private fun ColumnScope.RepositoryDetails(
     model: RepositoryModel,
+    onUserCLick: () -> Unit,
 ) {
 
     Spacer(Dimens.spaceSmall)
 
-    if (model.ownerName != null) {
+    if (model.owner != null) {
         UserCard(
-            avatarUrl = model.avatarUrl,
-            name = model.ownerName,
+            avatarUrl = model.owner.avatarUrl,
+            name = model.owner.login,
             cardColors = CardDefaults.cardColors(
                 containerColor = MaterialTheme.colorScheme.surfaceVariant,
                 contentColor = MaterialTheme.colorScheme.onSurfaceVariant,
@@ -180,7 +187,7 @@ private fun ColumnScope.RepositoryDetails(
             modifier = Modifier
                 .fillMaxWidth()
         ) {
-            // TODO: Navigate to user profile
+            onUserCLick()
         }
     }
 
