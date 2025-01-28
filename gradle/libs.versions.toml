@@ -21,6 +21,7 @@ retrofit = "2.11.0"
 koin-bom = "4.0.2"
 navigation = "2.8.5"
 okhttp3 = "4.12.0"
+coil = "3.0.4"
 
 [libraries]
 
@@ -57,6 +58,10 @@ koin-androidx-compose-navigation = { group = "io.insert-koin", name="koin-androi
 # Navigation
 androidx-navigation-safeargs = { group = "androidx.navigation", name = "navigation-safe-args-gradle-plugin", version.ref = "navigation" }
 androidx-navigation-compose = { group = "androidx.navigation", name = "navigation-compose", version.ref = "navigation" }
+
+# Image loading Coil
+coil-compose = { group = "io.coil-kt.coil3", name = "coil-compose", version.ref = "coil" }
+coil-network = { group = "io.coil-kt.coil3", name = "coil-network-okhttp", version.ref = "coil" }
 
 # Testing packages
 # --------------------------------------------------------------

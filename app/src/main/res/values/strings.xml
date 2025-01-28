@@ -2,4 +2,5 @@
     <string name="app_name">GitHubViewerPet</string>
     <string name="app_header">GitHub Viewer</string>
     <string name="app_start_button">Продолжить</string>
+    <string name="more_details">Подробнее</string>
 </resources>

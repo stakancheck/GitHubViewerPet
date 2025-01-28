@@ -129,6 +129,13 @@ dependencies {
     implementation(libs.koin.androidx.compose)
     implementation(libs.koin.androidx.compose.navigation)
 
+    // Navigation (Jetpack Compose)
+    implementation(libs.androidx.navigation.compose)
+
+    // image loading
+    implementation(libs.coil.compose)
+    implementation(libs.coil.network)
+
     // Testing dependencies
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -138,9 +145,6 @@ dependencies {
     testRuntimeOnly(libs.junit.jupiter.engine)
     testImplementation(libs.mockk)
     testImplementation(libs.mockwebserver)
-
-    // Navigation (Jetpack Compose)
-    implementation(libs.androidx.navigation.compose)
 
     // Debugging
     debugImplementation(libs.androidx.ui.tooling)
