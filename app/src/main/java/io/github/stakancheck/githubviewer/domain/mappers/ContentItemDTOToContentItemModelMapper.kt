@@ -18,13 +18,14 @@ package io.github.stakancheck.githubviewer.domain.mappers
 import io.github.stakancheck.githubviewer.data.dto.ContentItemDTO
 import io.github.stakancheck.githubviewer.domain.models.ContentItemModel
 import io.github.stakancheck.githubviewer.domain.models.FileType
+import io.github.stakancheck.githubviewer.domain.utils.FileSizeFormatter
 
 object ContentItemDTOToContentItemModelMapper {
     operator fun invoke(dto: ContentItemDTO): ContentItemModel {
         return ContentItemModel(
             name = dto.name,
             path = dto.path,
-            size = dto.size.toString(),
+            size = FileSizeFormatter(dto.size),
             htmlUrl = dto.htmlUrl,
             type = when (dto.type) {
                 "file" -> FileType.FILE
