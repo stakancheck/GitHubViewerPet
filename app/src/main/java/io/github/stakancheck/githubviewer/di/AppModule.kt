@@ -17,6 +17,7 @@ package io.github.stakancheck.githubviewer.di
 
 import io.github.stakancheck.githubviewer.data.repository.GitHubRepositoryImpl
 import io.github.stakancheck.githubviewer.data.sources.remote.GitHubApiSource
+import io.github.stakancheck.githubviewer.data.utils.BearerTokenInterceptor
 import io.github.stakancheck.githubviewer.domain.repository.GitHubRepository
 import io.github.stakancheck.githubviewer.domain.usecases.SearchRepositoriesAndUsersUseCase
 import io.github.stakancheck.githubviewer.presentation.feature_search.SearchScreenViewModel
@@ -46,9 +47,14 @@ val json = Json {
 private val dataModule = module {
     single<Retrofit> {
         val client = OkHttpClient.Builder()
-            .addInterceptor(HttpLoggingInterceptor().apply {
-                level = HttpLoggingInterceptor.Level.BODY
-            })
+            .addInterceptor(
+                HttpLoggingInterceptor().apply {
+                    level = HttpLoggingInterceptor.Level.BODY
+                }
+            )
+            .addInterceptor(
+                BearerTokenInterceptor()
+            )
             .build()
         val contentType = "application/json".toMediaType()
 
