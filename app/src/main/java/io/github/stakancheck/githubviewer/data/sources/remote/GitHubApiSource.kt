@@ -82,10 +82,10 @@ interface GitHubApiSource {
      *
      * See [GitHub API documentation](https://docs.github.com/ru/rest/repos/contents#get-repository-content).
      */
-    @GET("repos/{full_name}/{path}")
+    @GET("repos/{full_name}/contents/{path}")
     suspend fun getRepositoryContent(
-        @Path("full_name") fullName: String,
-        @Path("path") path: String
+        @Path(value = "full_name", encoded = true) fullName: String,
+        @Path(value = "path", encoded = true) path: String
     ): GHApiRepositoryContentResponseDTO
 
     companion object {

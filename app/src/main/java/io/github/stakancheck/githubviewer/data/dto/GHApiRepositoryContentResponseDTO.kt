@@ -25,7 +25,7 @@ data class ContentItemDTO(
     val name: String,
     val path: String,
     val sha: String,
-    val size: Int,
+    val size: Long,
     val url: String,
     @SerialName("html_url") val htmlUrl: String,
     @SerialName("git_url") val gitUrl: String,
