@@ -15,6 +15,8 @@
 
 package io.github.stakancheck.githubviewer.ui.components
 
+import androidx.compose.animation.core.LinearEasing
+import androidx.compose.animation.core.RepeatMode
 import androidx.compose.animation.core.animateFloat
 import androidx.compose.animation.core.infiniteRepeatable
 import androidx.compose.animation.core.rememberInfiniteTransition
@@ -44,29 +46,45 @@ import io.github.stakancheck.githubviewer.ui.values.Radius
 
 fun Modifier.shimmerEffect(
     color: Color,
+    widthOfShadowBrush: Int = 500,
+    angleOfAxisY: Float = 270f,
+    durationMillis: Int = 1500,
 ): Modifier = composed {
     var size by remember {
         mutableStateOf(IntSize.Zero)
     }
-    val transition = rememberInfiniteTransition(label = "shimer_transition")
-    val startOffsetX by transition.animateFloat(
-        initialValue = -2 * size.width.toFloat(),
-        targetValue = 2 * size.width.toFloat(),
-        animationSpec = infiniteRepeatable(
-            animation = tween(1500)
-        ),
-        label = "shimmer_modifier"
+
+    val shimmerColors = listOf(
+        color.copy(alpha = 0.1f),
+        color.copy(alpha = 0.2f),
+        color.copy(alpha = 0.4f),
+        color.copy(alpha = 0.2f),
+        color.copy(alpha = 0.1f),
     )
-    background(
-        brush = Brush.linearGradient(
-            colors = listOf(
-                Color.Transparent,
-                color.copy(alpha = 0.3f),
-                Color.Transparent
+
+    val transition = rememberInfiniteTransition(label = "")
+
+    val translateAnimation = transition.animateFloat(
+        initialValue = 0f,
+        targetValue = (durationMillis + widthOfShadowBrush).toFloat(),
+        animationSpec = infiniteRepeatable(
+            animation = tween(
+                durationMillis = durationMillis,
+                easing = LinearEasing,
             ),
-            start = Offset(startOffsetX, 0f),
-            end = Offset(startOffsetX + size.width.toFloat(), size.height.toFloat())
-        )
+            repeatMode = RepeatMode.Restart,
+        ),
+        label = "Shimmer loading animation",
+    )
+
+    val brush = Brush.linearGradient(
+        colors = shimmerColors,
+        start = Offset(x = translateAnimation.value - widthOfShadowBrush, y = 0.0f),
+        end = Offset(x = translateAnimation.value, y = angleOfAxisY),
+    )
+
+    background(
+        brush = brush
     ).onGloballyPositioned {
         size = it.size
     }
@@ -100,7 +118,6 @@ fun ShimmerConteiner(
 fun ShimmerPlaceHolder(modifier: Modifier = Modifier, clip: Dp = Radius.medium) {
     Box(
         modifier = modifier
-            .fillMaxWidth()
             .clip(RoundedCornerShape(clip))
             .shimmerEffect(color = LocalContentColor.current)
     )

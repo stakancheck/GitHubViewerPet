@@ -1,3 +1,6 @@
+import java.io.FileInputStream
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
@@ -6,6 +9,11 @@ plugins {
     alias(libs.plugins.compose.compiler)
     id("androidx.navigation.safeargs")
 }
+
+
+val secretsPropertiesFile = rootProject.file("secrets.properties")
+val secretProperties = Properties()
+secretProperties.load(FileInputStream(secretsPropertiesFile))
 
 // Android configuration ---------------------------------------------------------------------------
 android {
@@ -29,9 +37,17 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
         vectorDrawables {
             useSupportLibrary = true
         }
+
+        // Add buildConfigField for secrets
+        buildConfigField(
+            "String",
+            "GITHUB_API_TOKEN",
+            "\"${secretProperties.getProperty("GITHUB_API_TOKEN")}\""
+        )
     }
 
     buildTypes {
@@ -132,9 +148,12 @@ dependencies {
     // Navigation (Jetpack Compose)
     implementation(libs.androidx.navigation.compose)
 
-    // image loading
+    // Image loading
     implementation(libs.coil.compose)
     implementation(libs.coil.network)
+
+    // Lottie animations
+    implementation(libs.lottie.compose)
 
     // Testing dependencies
     androidTestImplementation(libs.androidx.junit)
