@@ -19,7 +19,9 @@ import io.github.stakancheck.githubviewer.data.repository.GitHubRepositoryImpl
 import io.github.stakancheck.githubviewer.data.sources.remote.GitHubApiSource
 import io.github.stakancheck.githubviewer.data.utils.BearerTokenInterceptor
 import io.github.stakancheck.githubviewer.domain.repository.GitHubRepository
+import io.github.stakancheck.githubviewer.domain.usecases.RetriveRepositoryContentsUseCase
 import io.github.stakancheck.githubviewer.domain.usecases.SearchRepositoriesAndUsersUseCase
+import io.github.stakancheck.githubviewer.presentation.feature_repository_content.RepositoryContentViewModel
 import io.github.stakancheck.githubviewer.presentation.feature_search.SearchScreenViewModel
 import io.github.stakancheck.githubviewer.utils.Constants
 import kotlinx.serialization.json.Json
@@ -91,15 +93,29 @@ private val domainModule = module {
             gitHubRepository = get()
         )
     }
+
+    factory {
+        RetriveRepositoryContentsUseCase(
+            gitHubRepository = get()
+        )
+    }
 }
 
 /**
  * Presentation module.
  */
 private val presentationModule = module {
+    // View models
     viewModel {
         SearchScreenViewModel(
             searchRepositoriesAndUsersUseCase = get(),
+        )
+    }
+
+    viewModel { parameters ->
+        RepositoryContentViewModel(
+            repoFullName = parameters.get(),
+            retrieveRepositoryContentsUseCase = get(),
         )
     }
 }
