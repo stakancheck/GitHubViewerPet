@@ -37,7 +37,7 @@ sealed interface NavigationRoute {
     data object SearchScreen : NavigationRoute
 
     @Serializable
-    class RepositoryScreen(val repositoryId: Int) : NavigationRoute
+    class RepositoryScreen(val repoFullName: String) : NavigationRoute
 }
 
 @Composable
@@ -60,11 +60,11 @@ fun MainNavigationHost() {
         }
         composable<NavigationRoute.SearchScreen> {
             SearchScreen(
-                navigateToRepositoryScreen = { repositoryId ->
-                    navController.navigate(NavigationRoute.RepositoryScreen(repositoryId))
+                navigateToRepositoryScreen = { repoFullName ->
+                    navController.navigate(NavigationRoute.RepositoryScreen(repoFullName))
                 },
-                navigateToUrl = {
-                    localUriHandler.openUri(it)
+                navigateToUrl = { url ->
+                    localUriHandler.openUri(url)
                 },
                 navigateBack = {
                     navController.popBackStack()
@@ -74,9 +74,9 @@ fun MainNavigationHost() {
         composable<NavigationRoute.RepositoryScreen> {
             val thisRoute = it.toRoute<NavigationRoute.RepositoryScreen>()
             RepositoryContentScreen(
-                initialRepositoryId = thisRoute.repositoryId,
-                navigateToUrl = {
-                    localUriHandler.openUri(it)
+                repoFullName = thisRoute.repoFullName,
+                navigateToUrl = { url ->
+                    localUriHandler.openUri(url)
                 },
                 navigateBack = {
                     navController.popBackStack()

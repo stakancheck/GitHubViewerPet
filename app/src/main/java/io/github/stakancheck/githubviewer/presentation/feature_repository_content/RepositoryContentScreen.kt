@@ -27,7 +27,7 @@ import io.github.stakancheck.githubviewer.presentation.feature_repository_conten
 
 @Composable
 fun RepositoryContentScreen(
-    initialRepositoryId: Int,
+    repoFullName: String,
     navigateToUrl: (url: String) -> Unit,
     navigateBack: () -> Unit,
 ) {

@@ -59,7 +59,7 @@ import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun SearchScreen(
-    navigateToRepositoryScreen: (repositoryId: Int) -> Unit,
+    navigateToRepositoryScreen: (repoFullName: String) -> Unit,
     navigateToUrl: (url: String) -> Unit,
     navigateBack: () -> Unit,
 ) {
@@ -136,7 +136,7 @@ fun SearchScreen(
                         searchResultsItem = searchResultsItem,
                         modifier = Modifier.padding(innerPadding),
                         onRepositoryClick = {
-                            navigateToRepositoryScreen(it.id)
+                            navigateToRepositoryScreen(it.fullName)
                         },
                         onUserClick = {
                             navigateToUrl(it.url)

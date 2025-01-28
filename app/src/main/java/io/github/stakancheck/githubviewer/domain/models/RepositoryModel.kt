@@ -19,6 +19,7 @@ data class RepositoryModel(
     val id: Int,
     val name: String,
     val owner: UserModel?,
+    val fullName: String,
     val stargazersCount: Int,
     val watchersCount: Int,
     val forksCount: Int,
