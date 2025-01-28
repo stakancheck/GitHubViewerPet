@@ -17,10 +17,11 @@ package io.github.stakancheck.githubviewer.presentation.feature_search.component
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Card
 import androidx.compose.material3.CardColors
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -40,22 +41,26 @@ fun UserCard(
     avatarUrl: String?,
     name: String,
     modifier: Modifier = Modifier,
-    cardColors: CardColors = CardDefaults.cardColors(),
+    cardColors: CardColors = CardDefaults.elevatedCardColors(
+        containerColor = MaterialTheme.colorScheme.surface,
+        contentColor = MaterialTheme.colorScheme.onSurface,
+    ),
     onClick: () -> Unit,
 ) {
-    Card(
+    ElevatedCard(
         colors = cardColors,
         modifier = modifier,
         onClick = onClick,
         shape = shapes.small,
     ) {
         Row(
-            modifier = Modifier.padding(Dimens.spaceMedium),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(Dimens.spaceMedium),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween,
         ) {
             Row(
-                modifier = Modifier.padding(Dimens.spaceMedium),
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 AvatarImage(

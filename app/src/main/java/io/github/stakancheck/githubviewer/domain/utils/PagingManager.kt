@@ -31,6 +31,7 @@ class PagingManager<T>(
     private val paginationSize: Int,
     private val onDataLoaded: (page: Int, list: List<T>) -> Unit,
     private val onStateChanged: (ListState) -> Unit,
+    private val updateCanPaginate: (Boolean) -> Unit = {},
 ) {
     private var page by mutableIntStateOf(1)
     private var canPaginate by mutableStateOf(false)
@@ -47,6 +48,7 @@ class PagingManager<T>(
 
             result.ifSuccess {
                 canPaginate = it.data.size == paginationSize
+                updateCanPaginate(canPaginate)
 
                 onDataLoaded(page, it.data)
 
@@ -67,11 +69,8 @@ class PagingManager<T>(
         page = 1
         listState = ListState.IDLE
         canPaginate = false
+        updateCanPaginate(canPaginate)
     }
-}
-
-enum class PagingResultStatus {
-    OK, ERROR
 }
 
 enum class ListState {

@@ -89,7 +89,7 @@ fun SearchBar(
                 },
                 leadingIcon = {
                     Icon(
-                        tint = MaterialTheme.colorScheme.outlineVariant,
+                        tint = MaterialTheme.colorScheme.outline,
                         modifier = Modifier.size(IconSize.Medium),
                         imageVector = IconPack.Search,
                         contentDescription = "Search"
@@ -101,7 +101,7 @@ fun SearchBar(
                             onClick = { onSearchChange("") }
                         ) {
                             Icon(
-                                tint = MaterialTheme.colorScheme.outlineVariant,
+                                tint = MaterialTheme.colorScheme.outline,
                                 imageVector = IconPack.X,
                                 contentDescription = "Clear"
                             )

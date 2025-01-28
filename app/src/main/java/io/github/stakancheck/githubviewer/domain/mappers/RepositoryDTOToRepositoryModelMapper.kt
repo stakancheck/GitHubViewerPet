@@ -23,7 +23,7 @@ object RepositoryDTOToRepositoryModelMapper {
         return RepositoryModel(
             id = dto.id,
             name = dto.name,
-            ownerName = dto.owner?.name,
+            ownerName = dto.owner?.login,
             avatarUrl = dto.owner?.avatarUrl,
             stargazersCount = dto.stargazersCount,
             watchersCount = dto.watchersCount,

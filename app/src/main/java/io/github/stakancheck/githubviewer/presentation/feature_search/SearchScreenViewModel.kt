@@ -41,6 +41,9 @@ class SearchScreenViewModel(
     private val _listState = MutableStateFlow(ListState.IDLE)
     val listState = _listState.asStateFlow()
 
+    private val _canPaginate = MutableStateFlow(false)
+    val canPaginate = _canPaginate.asStateFlow()
+
     private val _searchQuery = MutableStateFlow("")
     val searchQuery = _searchQuery.asStateFlow()
 
@@ -66,12 +69,24 @@ class SearchScreenViewModel(
         },
         onStateChanged = { state ->
             _listState.value = state
+        },
+        updateCanPaginate = { canPaginate ->
+            _canPaginate.value = canPaginate
         }
     )
 
     override fun onEvent(event: SearchScreenContract.Event) {
         when (event) {
             is SearchScreenContract.Event.OnSearchChanged -> handleSearchChanged(event.query)
+            SearchScreenContract.Event.OnPaginationReached -> handlePaginationReached()
+        }
+    }
+
+    private fun handlePaginationReached() {
+        if (_canPaginate.value && _listState.value == ListState.IDLE) {
+            pagingManager.loadNextPage { page ->
+                searchRepositoriesAndUsersUseCase(_searchQuery.value, page)
+            }
         }
     }
 

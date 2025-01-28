@@ -67,7 +67,11 @@ fun InfoBadge(
     ) {
         CompositionLocalProvider(LocalContentColor provides MaterialTheme.colorScheme.onSurfaceVariant) {
             Row (
-                modifier = Modifier.padding(Dimens.spaceExtraSmall),
+                modifier = Modifier
+                    .padding(
+                        vertical = Dimens.spaceExtraSmall,
+                        horizontal = Dimens.spaceSmall,
+                    ),
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 Text(

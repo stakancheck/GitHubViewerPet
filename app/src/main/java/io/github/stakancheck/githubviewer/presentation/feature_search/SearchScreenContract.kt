@@ -18,6 +18,7 @@ package io.github.stakancheck.githubviewer.presentation.feature_search
 object SearchScreenContract {
     sealed interface Event {
         data class OnSearchChanged(val query: String) : Event
+        object OnPaginationReached : Event
     }
 
     sealed interface Effect
