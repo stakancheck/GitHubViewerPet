@@ -22,6 +22,8 @@ import androidx.compose.ui.platform.LocalUriHandler
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.toRoute
+import io.github.stakancheck.githubviewer.presentation.feature_repository_content.RepositoryContentScreen
 import io.github.stakancheck.githubviewer.presentation.feature_search.SearchScreen
 import io.github.stakancheck.githubviewer.presentation.feature_start.StartScreen
 import kotlinx.serialization.Serializable
@@ -64,11 +66,22 @@ fun MainNavigationHost() {
                 navigateToUrl = {
                     localUriHandler.openUri(it)
                 },
-                navigateBack = { navController.popBackStack() }
+                navigateBack = {
+                    navController.popBackStack()
+                }
             )
         }
         composable<NavigationRoute.RepositoryScreen> {
-            // RepositoryScreen()
+            val thisRoute = it.toRoute<NavigationRoute.RepositoryScreen>()
+            RepositoryContentScreen(
+                initialRepositoryId = thisRoute.repositoryId,
+                navigateToUrl = {
+                    localUriHandler.openUri(it)
+                },
+                navigateBack = {
+                    navController.popBackStack()
+                }
+            )
         }
     }
 }
