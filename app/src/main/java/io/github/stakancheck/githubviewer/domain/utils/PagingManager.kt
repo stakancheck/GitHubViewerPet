@@ -26,6 +26,17 @@ import io.github.stakancheck.githubviewer.common.error.ifSuccess
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
+
+/**
+ * Manages pagination and loading state of a list of items.
+ *
+ * @param T Type of items in the list.
+ * @param coroutineScope Coroutine scope to launch pagination requests.
+ * @param paginationSize Size of a single page.
+ * @param onDataLoaded Callback to be called when new data is loaded.
+ * @param onStateChanged Callback to be called when the state of the list changes.
+ * @param updateCanPaginate Callback to be called when the ability to paginate changes.
+ */
 class PagingManager<T>(
     private val coroutineScope: CoroutineScope,
     private val paginationSize: Int,
@@ -37,6 +48,11 @@ class PagingManager<T>(
     var canPaginate by mutableStateOf(false)
     private var listState by mutableStateOf(ListState.IDLE)
 
+    /**
+     * Loads the next page of data.
+     *
+     * @param loadData Function to load the next page of data.
+     */
     fun loadNextPage(
         loadData: suspend (Int) -> Result<List<T>, DataError>,
     ) = coroutineScope.launch {
@@ -65,6 +81,12 @@ class PagingManager<T>(
         }
     }
 
+
+    /**
+     * Resets the manager to its initial state.
+     *
+     * This method should be called when the list is no longer needed.
+     */
     fun reset() {
         page = 1
         listState = ListState.IDLE
