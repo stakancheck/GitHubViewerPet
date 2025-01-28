@@ -16,10 +16,12 @@
 package io.github.stakancheck.githubviewer.data.sources.remote
 
 import androidx.annotation.IntRange
+import io.github.stakancheck.githubviewer.data.dto.GHApiRepositoryContentResponseDTO
 import io.github.stakancheck.githubviewer.data.dto.GHApiSearchRepositoriesResponseDTO
 import io.github.stakancheck.githubviewer.data.dto.GHApiSearchUsersResponseDTO
 import kotlinx.coroutines.Dispatchers
 import retrofit2.http.GET
+import retrofit2.http.Path
 import retrofit2.http.Query
 
 
@@ -38,7 +40,7 @@ interface GitHubApiSource {
      * @param perPage number of items per page.
      * @return search results in [GHApiSearchRepositoriesResponseDTO].
      *
-     * See [GitHub API documentation](https://docs.github.com/en/rest/search/search?apiVersion=2022-11-28#search-repositories).
+     * See [GitHub API documentation](https://docs.github.com/en/rest/search/search#search-repositories).
      */
     @GET("search/repositories")
     suspend fun searchRepositories(
@@ -59,7 +61,7 @@ interface GitHubApiSource {
      * @param perPage number of items per page.
      * @return search results in [GHApiSearchUsersResponseDTO].
      *
-     * See [GitHub API documentation](https://docs.github.com/en/rest/search/search?apiVersion=2022-11-28#search-users).
+     * See [GitHub API documentation](https://docs.github.com/en/rest/search/search#search-users).
      */
     @GET("search/users")
     suspend fun searchUsers(
@@ -69,6 +71,22 @@ interface GitHubApiSource {
         @Query("page") page: Int,
         @Query("per_page") @IntRange(1, 100) perPage: Int
     ): GHApiSearchUsersResponseDTO
+
+
+    /**
+     * Get repository content by full name and path.
+     *
+     * @param fullName full name of the repository, ex. "user/repo".
+     * @param path path to the content, ex. "dir1/dir2/dir3".
+     * @return contents response in [GHApiRepositoryContentResponseDTO].
+     *
+     * See [GitHub API documentation](https://docs.github.com/ru/rest/repos/contents#get-repository-content).
+     */
+    @GET("repos/{full_name}/{path}")
+    suspend fun getRepositoryContent(
+        @Path("full_name") fullName: String,
+        @Path("path") path: String
+    ): GHApiRepositoryContentResponseDTO
 
     companion object {
         val DEFAULT_DISPATCHER = Dispatchers.IO

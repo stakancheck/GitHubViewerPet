@@ -18,6 +18,7 @@ package io.github.stakancheck.githubviewer.data.repository
 import android.util.Log
 import io.github.stakancheck.githubviewer.common.error.DataError
 import io.github.stakancheck.githubviewer.common.error.Result
+import io.github.stakancheck.githubviewer.data.dto.GHApiRepositoryContentResponseDTO
 import io.github.stakancheck.githubviewer.data.dto.GHApiSearchRepositoriesResponseDTO
 import io.github.stakancheck.githubviewer.data.dto.GHApiSearchUsersResponseDTO
 import io.github.stakancheck.githubviewer.data.mappers.ApiThrowableToDataErrorMapper
@@ -70,6 +71,27 @@ class GitHubRepositoryImpl(
         return when (response) {
             is ApiResult.Error -> {
                 Log.e(TAG, "searchUsers: ${response.error}")
+                Result.error(ApiThrowableToDataErrorMapper(response.error))
+            }
+
+            is ApiResult.Success -> {
+                Result.success(response.data)
+            }
+        }
+    }
+
+    override suspend fun getRepositoryContent(
+        repoFullName: String,
+        path: String,
+    ): Result<GHApiRepositoryContentResponseDTO, DataError.Network> {
+        val response = ApiResult.withCatching(
+            dispatcher = dispatcher
+        ) {
+            apiSource.getRepositoryContent(repoFullName, path)
+        }
+        return when (response) {
+            is ApiResult.Error -> {
+                Log.e(TAG, "getRepositoryContent: ${response.error}")
                 Result.error(ApiThrowableToDataErrorMapper(response.error))
             }
 

@@ -39,6 +39,7 @@ object RepositoryDTOToRepositoryModelMapper {
             createdAt = DateTimeFormatter(dto.createdAt),
             updatedAt = DateTimeFormatter(dto.updatedAt),
             description = dto.description,
+            fullName = dto.fullName,
         )
     }
 }
