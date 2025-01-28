@@ -7,4 +7,5 @@
     <string name="updated_at">Обновлен:</string>
     <string name="description">Описание:</string>
     <string name="search">Поиск</string>
+    <string name="no_more_results">Больше нет результатов</string>
 </resources>
