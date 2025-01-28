@@ -15,6 +15,7 @@
 
 package io.github.stakancheck.githubviewer.presentation.feature_search
 
+import android.util.Log
 import androidx.lifecycle.viewModelScope
 import io.github.stakancheck.githubviewer.domain.models.SearchResultsItem
 import io.github.stakancheck.githubviewer.domain.usecases.SearchRepositoriesAndUsersUseCase
@@ -41,11 +42,11 @@ class SearchScreenViewModel(
     private val _listState = MutableStateFlow(ListState.IDLE)
     val listState = _listState.asStateFlow()
 
-    private val _canPaginate = MutableStateFlow(false)
-    val canPaginate = _canPaginate.asStateFlow()
-
     private val _searchQuery = MutableStateFlow("")
     val searchQuery = _searchQuery.asStateFlow()
+
+    private val _state = MutableStateFlow<SearchScreenContract.State>(SearchScreenContract.State.Idle)
+    val state = _state.asStateFlow()
 
     private var searchJob: Job? = null
 
@@ -67,12 +68,22 @@ class SearchScreenViewModel(
                 }
             }
         },
-        onStateChanged = { state ->
+        onStateChanged = { state, error ->
             _listState.value = state
+            when(state) {
+                ListState.ERROR -> {
+                    if (error != null) {
+                        _state.value = SearchScreenContract.State.Error(error)
+                    }
+                }
+                ListState.EMPTY -> {
+                    _state.value = SearchScreenContract.State.EmptyResult
+                }
+                else -> {
+                    _state.value = SearchScreenContract.State.Success
+                }
+            }
         },
-        updateCanPaginate = { canPaginate ->
-            _canPaginate.value = canPaginate
-        }
     )
 
     override fun onEvent(event: SearchScreenContract.Event) {
@@ -83,7 +94,7 @@ class SearchScreenViewModel(
     }
 
     private fun handlePaginationReached() {
-        if (_canPaginate.value && _listState.value == ListState.IDLE) {
+        if (pagingManager.canPaginate && _listState.value == ListState.IDLE) {
             pagingManager.loadNextPage { page ->
                 searchRepositoriesAndUsersUseCase(_searchQuery.value, page)
             }
@@ -97,7 +108,7 @@ class SearchScreenViewModel(
     @OptIn(FlowPreview::class)
     private fun observeSearchQuery() {
         _searchQuery
-            .debounce(300) // 300 ms delay for start searching
+            .debounce(DEFAULT_DEBOUNCE_TIME) // 300 ms delay for start searching
             .distinctUntilChanged() // Ignore duplicate queries
             .onEach { query ->
                 if (query.length >= SEARCH_QUERY_LENGTH_THRESHOLD) {
@@ -105,6 +116,7 @@ class SearchScreenViewModel(
                 } else {
                     _searchResultItems.value = emptyList()
                     _listState.value = ListState.IDLE
+                    _state.value = SearchScreenContract.State.Idle
                 }
             }
             .launchIn(viewModelScope)
@@ -114,6 +126,7 @@ class SearchScreenViewModel(
         searchJob?.cancel() // Cancel last search job if it's still running
         searchJob = viewModelScope.launch {
             pagingManager.reset()
+            _searchResultItems.value = emptyList()
             pagingManager.loadNextPage { page ->
                 searchRepositoriesAndUsersUseCase(query, page)
             }
@@ -127,5 +140,7 @@ class SearchScreenViewModel(
 
     companion object {
         const val SEARCH_QUERY_LENGTH_THRESHOLD = 3
+        const val DEFAULT_DEBOUNCE_TIME = 300L
+        const val TAG = "SearchScreenViewModel"
     }
 }

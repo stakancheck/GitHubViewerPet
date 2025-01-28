@@ -15,6 +15,10 @@
 
 package io.github.stakancheck.githubviewer.common.error
 
+import androidx.annotation.RawRes
+import androidx.annotation.StringRes
+import io.github.stakancheck.githubviewer.R
+
 sealed interface DataError : RootError {
     enum class Network : DataError {
         REQUEST_TIMEOUT,
@@ -26,13 +30,42 @@ sealed interface DataError : RootError {
         CANCELLED,
         UNKNOWN,
     }
+}
 
-    enum class Local : DataError {
-        READ_ERROR,
-        NO_DATA,
-        WRITE_ERROR,
-        USER_NOT_FOUND,
-        USER_NOT_LOGGING_IN,
-        UNKNOWN,
+
+@RawRes
+fun DataError.getAnimationResource(): Int {
+    return when(this) {
+        else -> {
+            R.raw.bad_connection_animation
+        }
+    }
+}
+
+@StringRes
+fun DataError.getErrorMessageResource(): Int {
+    return when(this) {
+        DataError.Network.REQUEST_TIMEOUT -> R.string.error_request_timeout
+        DataError.Network.NO_INTERNET -> R.string.error_no_internet
+        DataError.Network.UNAUTHORIZED -> R.string.error_unauthorized
+        DataError.Network.SERVER_ERROR -> R.string.error_server_error
+        DataError.Network.FORBIDDEN -> R.string.error_forbidden
+        DataError.Network.SERIALIZATION -> R.string.error_serialization
+        DataError.Network.CANCELLED -> R.string.error_cancelled
+        DataError.Network.UNKNOWN -> R.string.error_unknown
+    }
+}
+
+@StringRes
+fun DataError.getErrorDesctriptionResource(): Int {
+    return when(this) {
+        DataError.Network.REQUEST_TIMEOUT -> R.string.error_request_timeout_description
+        DataError.Network.NO_INTERNET -> R.string.error_no_internet_description
+        DataError.Network.UNAUTHORIZED -> R.string.error_unauthorized_description
+        DataError.Network.SERVER_ERROR -> R.string.error_server_error_description
+        DataError.Network.FORBIDDEN -> R.string.error_forbidden_description
+        DataError.Network.SERIALIZATION -> R.string.error_serialization_description
+        DataError.Network.CANCELLED -> R.string.error_cancelled_description
+        DataError.Network.UNKNOWN -> R.string.error_unknown_description
     }
 }

@@ -22,6 +22,7 @@ koin-bom = "4.0.2"
 navigation = "2.8.5"
 okhttp3 = "4.12.0"
 coil = "3.0.4"
+lottieCompose = "6.6.2"
 
 [libraries]
 
@@ -62,6 +63,9 @@ androidx-navigation-compose = { group = "androidx.navigation", name = "navigatio
 # Image loading Coil
 coil-compose = { group = "io.coil-kt.coil3", name = "coil-compose", version.ref = "coil" }
 coil-network = { group = "io.coil-kt.coil3", name = "coil-network-okhttp", version.ref = "coil" }
+
+# Lottie animations
+lottie-compose = { module = "com.airbnb.android:lottie-compose", version.ref = "lottieCompose" }
 
 # Testing packages
 # --------------------------------------------------------------

@@ -17,6 +17,7 @@ package io.github.stakancheck.githubviewer.domain.models
 
 data class UserModel(
     val id: Long,
+    val url: String,
     val login: String,
     val avatarUrl: String
 ) : SearchResultsItem(

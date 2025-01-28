@@ -10,7 +10,6 @@ plugins {
     id("androidx.navigation.safeargs")
 }
 
-
 val secretsPropertiesFile = rootProject.file("secrets.properties")
 val secretProperties = Properties()
 secretProperties.load(FileInputStream(secretsPropertiesFile))
@@ -46,7 +45,7 @@ android {
         buildConfigField(
             "String",
             "GITHUB_API_TOKEN",
-            "\"${secretProperties.getProperty("GITHUB_API_TOKEN")}\""
+            "\"${secretProperties.getProperty("GITHUB_API_TOKEN")}\"",
         )
     }
 

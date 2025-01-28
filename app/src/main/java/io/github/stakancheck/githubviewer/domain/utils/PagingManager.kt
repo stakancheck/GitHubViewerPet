@@ -30,19 +30,19 @@ class PagingManager<T>(
     private val coroutineScope: CoroutineScope,
     private val paginationSize: Int,
     private val onDataLoaded: (page: Int, list: List<T>) -> Unit,
-    private val onStateChanged: (ListState) -> Unit,
+    private val onStateChanged: (state: ListState, error: DataError?) -> Unit,
     private val updateCanPaginate: (Boolean) -> Unit = {},
 ) {
     private var page by mutableIntStateOf(1)
-    private var canPaginate by mutableStateOf(false)
+    var canPaginate by mutableStateOf(false)
     private var listState by mutableStateOf(ListState.IDLE)
 
     fun loadNextPage(
         loadData: suspend (Int) -> Result<List<T>, DataError>,
     ) = coroutineScope.launch {
-        if (page == 1 || (page != 1 && canPaginate) && listState == ListState.IDLE) {
-            listState = if (page == 1) ListState.LOADING else ListState.PAGINATING
-            onStateChanged(listState)
+        if (page == 1 || (page != 1 && canPaginate) && (listState == ListState.IDLE || listState == ListState.EMPTY)) {
+            listState = ListState.LOADING
+            onStateChanged(listState, null)
 
             val result = loadData(page)
 
@@ -52,15 +52,15 @@ class PagingManager<T>(
 
                 onDataLoaded(page, it.data)
 
-                listState = ListState.IDLE
-                onStateChanged(listState)
+                listState = if (it.data.isEmpty()) ListState.EMPTY else ListState.IDLE
+                onStateChanged(listState, null)
 
                 if (canPaginate) {
                     page++
                 }
             }.ifError {
                 listState = if (page == 1) ListState.ERROR else ListState.PAGINATION_EXHAUST
-                onStateChanged(listState)
+                onStateChanged(listState, it.error)
             }
         }
     }
@@ -74,5 +74,5 @@ class PagingManager<T>(
 }
 
 enum class ListState {
-    IDLE, LOADING, PAGINATING, ERROR, PAGINATION_EXHAUST
+    IDLE, EMPTY, LOADING, ERROR, PAGINATION_EXHAUST
 }

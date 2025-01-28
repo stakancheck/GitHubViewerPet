@@ -15,6 +15,8 @@
 
 package io.github.stakancheck.githubviewer.presentation.feature_search
 
+import io.github.stakancheck.githubviewer.common.error.DataError
+
 object SearchScreenContract {
     sealed interface Event {
         data class OnSearchChanged(val query: String) : Event
@@ -22,4 +24,11 @@ object SearchScreenContract {
     }
 
     sealed interface Effect
+
+    sealed interface State {
+        object Idle : State
+        data class Error(val error: DataError) : State
+        object EmptyResult : State
+        object Success : State
+    }
 }
