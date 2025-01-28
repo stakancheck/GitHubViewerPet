@@ -37,10 +37,10 @@ import io.github.stakancheck.githubviewer.ui.values.shapes
 
 @Composable
 fun UserCard(
-    avatarUrl: String,
+    avatarUrl: String?,
     name: String,
-    cardColors: CardColors = CardDefaults.cardColors(),
     modifier: Modifier = Modifier,
+    cardColors: CardColors = CardDefaults.cardColors(),
     onClick: () -> Unit,
 ) {
     Card(

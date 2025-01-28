@@ -13,25 +13,13 @@
  * limitations under the License.
  */
 
-package io.github.stakancheck.githubviewer.common.error
+package io.github.stakancheck.githubviewer.domain.models
 
-sealed interface DataError : RootError {
-    enum class Network : DataError {
-        REQUEST_TIMEOUT,
-        NO_INTERNET,
-        UNAUTHORIZED,
-        SERVER_ERROR,
-        SERIALIZATION,
-        CANCELLED,
-        UNKNOWN,
-    }
-
-    enum class Local : DataError {
-        READ_ERROR,
-        NO_DATA,
-        WRITE_ERROR,
-        USER_NOT_FOUND,
-        USER_NOT_LOGGING_IN,
-        UNKNOWN,
-    }
-}
+data class UserModel(
+    val id: Long,
+    val login: String,
+    val avatarUrl: String
+) : SearchResultsItem(
+    uniq_id = "user$id",
+    sortValue = login
+)

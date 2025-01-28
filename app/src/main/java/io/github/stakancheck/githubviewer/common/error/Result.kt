@@ -57,3 +57,24 @@ fun <I : Any, O : Any, E : RootError> Result<I, E>.map(mapper: (I) -> O): Result
         is Result.Error -> Result.Error(error)
     }
 }
+
+suspend fun <D : Any, E : RootError> Result<D, E>.ifSuccess(body: suspend (result: Result.Success<D, E>) -> Unit): Result<D, E> {
+    if (this is Result.Success) {
+        body(this)
+    }
+    return this
+}
+
+suspend fun <D : Any, E : RootError> Result<D, E>.ifError(
+    cancellationIsError: Boolean = false,
+    body: suspend (result: Result.Error<D, E>) -> Unit
+): Result<D, E> {
+    if (this is Result.Error) {
+        if (this.error == DataError.Network.CANCELLED && !cancellationIsError) {
+            return this
+        }
+        body(this)
+    }
+    return this
+}
+

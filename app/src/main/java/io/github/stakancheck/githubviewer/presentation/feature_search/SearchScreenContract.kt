@@ -13,25 +13,12 @@
  * limitations under the License.
  */
 
-package io.github.stakancheck.githubviewer.common.error
+package io.github.stakancheck.githubviewer.presentation.feature_search
 
-sealed interface DataError : RootError {
-    enum class Network : DataError {
-        REQUEST_TIMEOUT,
-        NO_INTERNET,
-        UNAUTHORIZED,
-        SERVER_ERROR,
-        SERIALIZATION,
-        CANCELLED,
-        UNKNOWN,
+object SearchScreenContract {
+    sealed interface Event {
+        data class OnSearchChanged(val query: String) : Event
     }
 
-    enum class Local : DataError {
-        READ_ERROR,
-        NO_DATA,
-        WRITE_ERROR,
-        USER_NOT_FOUND,
-        USER_NOT_LOGGING_IN,
-        UNKNOWN,
-    }
+    sealed interface Effect
 }

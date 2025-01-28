@@ -13,10 +13,17 @@
  * limitations under the License.
  */
 
-package io.github.stakancheck.githubviewer.presentation.feature_search.models
+package io.github.stakancheck.githubviewer.domain.mappers
 
-data class UserModel(
-    val id: Int,
-    val name: String,
-    val avatarUrl: String
-)
+import io.github.stakancheck.githubviewer.data.dto.UserItemDTO
+import io.github.stakancheck.githubviewer.domain.models.UserModel
+
+object UserItemDTOToUserModelMapper {
+    operator fun invoke(dto: UserItemDTO): UserModel {
+        return UserModel(
+            id = dto.id,
+            login = dto.login,
+            avatarUrl = dto.avatarUrl
+        )
+    }
+}

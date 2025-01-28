@@ -33,8 +33,8 @@ class GitHubRepositoryImpl(
 
     override suspend fun searchRepositories(
         query: String,
-        sort: String,
-        order: String,
+        sort: String?,
+        order: String?,
         page: Int,
         perPage: Int
     ): Result<GHApiSearchRepositoriesResponseDTO, DataError.Network> {
@@ -57,8 +57,8 @@ class GitHubRepositoryImpl(
 
     override suspend fun searchUsers(
         query: String,
-        sort: String,
-        order: String,
+        sort: String?,
+        order: String?,
         page: Int,
         perPage: Int
     ): Result<GHApiSearchUsersResponseDTO, DataError.Network> {

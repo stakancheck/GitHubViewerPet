@@ -15,19 +15,18 @@
 
 package io.github.stakancheck.githubviewer.presentation.feature_search
 
-import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.safeContent
-import androidx.compose.foundation.layout.safeDrawing
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import io.github.stakancheck.githubviewer.presentation.feature_search.components.SearchBar
+import org.koin.androidx.compose.koinViewModel
 
 
 @Composable
@@ -35,21 +34,31 @@ fun SearchScreen(
     navigateToRepositoryScreen: (repositoryId: Int) -> Unit,
     navigateBack: () -> Unit,
 ) {
-    var searchText by remember { mutableStateOf("") }
+    val viewModel = koinViewModel<SearchScreenViewModel>()
+
+    val searchText by viewModel.searchQuery.collectAsState()
+    val searchResultsItem by viewModel.searchResultsItem.collectAsState()
 
     Scaffold(
         topBar = {
             SearchBar(
                 searchText = searchText,
-                onSearchChange = { searchText = it },
+                onSearchChange = {
+                    viewModel.onEvent(SearchScreenContract.Event.OnSearchChanged(it))
+                },
                 onBackClick = navigateBack,
             )
         },
     ) { innerPadding ->
-        Text(
-            "Test",
+        LazyColumn(
             modifier = Modifier.padding(innerPadding)
-        )
+        ) {
+            items(searchResultsItem, key = { it.uniq_id }) {
+                Text(
+                    text = it.sortValue,
+                    modifier = Modifier.padding(16.dp)
+                )
+            }
+        }
     }
 }
-

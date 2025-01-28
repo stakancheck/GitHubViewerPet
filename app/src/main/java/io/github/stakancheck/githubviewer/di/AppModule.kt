@@ -18,12 +18,15 @@ package io.github.stakancheck.githubviewer.di
 import io.github.stakancheck.githubviewer.data.repository.GitHubRepositoryImpl
 import io.github.stakancheck.githubviewer.data.sources.remote.GitHubApiSource
 import io.github.stakancheck.githubviewer.domain.repository.GitHubRepository
+import io.github.stakancheck.githubviewer.domain.usecases.SearchRepositoriesAndUsersUseCase
+import io.github.stakancheck.githubviewer.presentation.feature_search.SearchScreenViewModel
 import io.github.stakancheck.githubviewer.utils.Constants
 import kotlinx.serialization.json.Json
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import org.koin.core.context.startKoin
+import org.koin.core.module.dsl.viewModel
 import org.koin.dsl.KoinAppDeclaration
 import org.koin.dsl.module
 import retrofit2.Retrofit
@@ -32,6 +35,7 @@ import retrofit2.converter.kotlinx.serialization.asConverterFactory
 
 val json = Json {
     ignoreUnknownKeys = true
+    isLenient = true
 }
 
 /**
@@ -45,7 +49,7 @@ private val dataModule = module {
             .addInterceptor(HttpLoggingInterceptor().apply {
                 level = HttpLoggingInterceptor.Level.BODY
             })
-        .build()
+            .build()
         val contentType = "application/json".toMediaType()
 
         Retrofit.Builder()
@@ -63,10 +67,42 @@ private val dataModule = module {
     }
 
     // Repositories
-    single<GitHubRepository> { GitHubRepositoryImpl(get(), get()) }
+    single<GitHubRepository> {
+        GitHubRepositoryImpl(
+            apiSource = get(),
+        )
+    }
 }
 
-private val appModules = listOf(dataModule)
+/**
+ * Domain module
+ */
+
+private val domainModule = module {
+    // Use cases
+    factory {
+        SearchRepositoriesAndUsersUseCase(
+            gitHubRepository = get()
+        )
+    }
+}
+
+/**
+ * Presentation module.
+ */
+private val presentationModule = module {
+    viewModel {
+        SearchScreenViewModel(
+            searchRepositoriesAndUsersUseCase = get(),
+        )
+    }
+}
+
+private val appModules = listOf(
+    dataModule,
+    domainModule,
+    presentationModule
+)
 
 fun initKoin(
     appDeclaration: KoinAppDeclaration = {},

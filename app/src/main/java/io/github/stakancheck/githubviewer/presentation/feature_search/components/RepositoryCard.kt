@@ -42,7 +42,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import io.github.stakancheck.githubviewer.R
-import io.github.stakancheck.githubviewer.presentation.feature_search.models.RepositoryModel
+import io.github.stakancheck.githubviewer.domain.models.RepositoryModel
 import io.github.stakancheck.githubviewer.ui.components.Spacer
 import io.github.stakancheck.githubviewer.ui.icons.IconPack
 import io.github.stakancheck.githubviewer.ui.icons.iconpack.ChevronRight
@@ -157,16 +157,19 @@ private fun RepositoryCardHeader(
 private fun ColumnScope.RepositoryDetails(
     model: RepositoryModel,
 ) {
-    UserCard(
-        avatarUrl = model.avatarUrl,
-        name = model.ownerName,
-        cardColors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.surfaceVariant,
-            contentColor = MaterialTheme.colorScheme.onSurfaceVariant,
-        ),
-        modifier = Modifier.fillMaxWidth()
-    ) {
-        // TODO: Navigate to user profile
+
+    if (model.ownerName != null) {
+        UserCard(
+            avatarUrl = model.avatarUrl,
+            name = model.ownerName,
+            cardColors = CardDefaults.cardColors(
+                containerColor = MaterialTheme.colorScheme.surfaceVariant,
+                contentColor = MaterialTheme.colorScheme.onSurfaceVariant,
+            ),
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            // TODO: Navigate to user profile
+        }
     }
 
     Spacer(Dimens.spaceSmall)

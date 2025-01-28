@@ -13,17 +13,9 @@
  * limitations under the License.
  */
 
-package io.github.stakancheck.githubviewer.presentation.feature_search.models
+package io.github.stakancheck.githubviewer.domain.models
 
-data class RepositoryModel(
-    val id: Int,
-    val name: String,
-    val ownerName: String,
-    val avatarUrl: String,
-    val stargazersCount: Int,
-    val watchersCount: Int,
-    val forksCount: Int,
-    val createdAt: String,
-    val updatedAt: String,
-    val description: String?,
+sealed class SearchResultsItem(
+    val uniq_id: String,
+    val sortValue: String,
 )

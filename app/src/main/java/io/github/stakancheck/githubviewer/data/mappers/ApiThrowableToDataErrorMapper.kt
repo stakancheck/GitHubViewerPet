@@ -19,6 +19,7 @@ import io.github.stakancheck.githubviewer.common.error.DataError
 import kotlinx.serialization.SerializationException
 import okio.IOException
 import retrofit2.HttpException
+import kotlin.coroutines.cancellation.CancellationException
 
 class ApiThrowableToDataErrorMapper {
     companion object {
@@ -27,6 +28,7 @@ class ApiThrowableToDataErrorMapper {
                 is java.net.UnknownHostException -> DataError.Network.NO_INTERNET
                 is IOException -> DataError.Network.NO_INTERNET
                 is SerializationException -> DataError.Network.SERIALIZATION
+                is CancellationException -> DataError.Network.CANCELLED
                 is HttpException -> when (throwable.code()) {
                     401 -> DataError.Network.UNAUTHORIZED
                     500 -> DataError.Network.SERVER_ERROR

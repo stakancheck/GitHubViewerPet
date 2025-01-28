@@ -43,8 +43,8 @@ interface GitHubApiSource {
     @GET("search/repositories")
     suspend fun searchRepositories(
         @Query("q") query: String,
-        @Query("sort") sort: String,
-        @Query("order") order: String,
+        @Query("sort") sort: String?,
+        @Query("order") order: String?,
         @Query("page") page: Int,
         @Query("per_page") @IntRange(1, 100) perPage: Int
     ): GHApiSearchRepositoriesResponseDTO
@@ -64,8 +64,8 @@ interface GitHubApiSource {
     @GET("search/users")
     suspend fun searchUsers(
         @Query("q") query: String,
-        @Query("sort") sort: String,
-        @Query("order") order: String,
+        @Query("sort") sort: String?,
+        @Query("order") order: String?,
         @Query("page") page: Int,
         @Query("per_page") @IntRange(1, 100) perPage: Int
     ): GHApiSearchUsersResponseDTO

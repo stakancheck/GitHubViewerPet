@@ -23,16 +23,16 @@ import io.github.stakancheck.githubviewer.data.dto.GHApiSearchUsersResponseDTO
 interface GitHubRepository {
     suspend fun searchRepositories(
         query: String,
-        sort: String,
-        order: String,
+        sort: String? = null,
+        order: String? = null,
         page: Int,
         perPage: Int
     ): Result<GHApiSearchRepositoriesResponseDTO, DataError.Network>
 
     suspend fun searchUsers(
         query: String,
-        sort: String,
-        order: String,
+        sort: String? = null,
+        order: String? = null,
         page: Int,
         perPage: Int
     ): Result<GHApiSearchUsersResponseDTO, DataError.Network>
