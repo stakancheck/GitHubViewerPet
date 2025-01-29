@@ -14,7 +14,6 @@ val secretsPropertiesFile = rootProject.file("secrets.properties")
 val secretProperties = Properties()
 secretProperties.load(FileInputStream(secretsPropertiesFile))
 
-
 val keystorePropertiesFile = rootProject.file("signing/keystore.properties")
 val keystoreProperties = Properties()
 keystoreProperties.load(FileInputStream(keystorePropertiesFile))
@@ -77,7 +76,7 @@ android {
 
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
+                "proguard-rules.pro",
             )
 
             signingConfig = signingConfigs.getByName("release")
