@@ -112,6 +112,7 @@ githubApiToken=<YOUR_TOKEN>
 
 ## Контакты автора
 **✉️ Рабочая почта**: [a.sukhanov.work@gmail.com](mailto:a.sukhanov.work@gmail.com)
+
 **💬 Telegram**: [@stakancheck_work](https://t.me/stakancheck_work)
 
 ## Лицензия
