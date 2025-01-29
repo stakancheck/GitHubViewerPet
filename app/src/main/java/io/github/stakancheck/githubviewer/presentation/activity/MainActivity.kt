@@ -19,6 +19,8 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import io.github.stakancheck.githubviewer.presentation.navigation.MainNavigationHost
 import io.github.stakancheck.githubviewer.ui.theme.GitHubViewerPetTheme
 import org.koin.compose.KoinContext
@@ -30,7 +32,11 @@ class MainActivity : ComponentActivity() {
         setContent {
             KoinContext {
                 GitHubViewerPetTheme {
-                    MainNavigationHost()
+                    Surface(
+                        color = MaterialTheme.colorScheme.background,
+                    ) {
+                        MainNavigationHost()
+                    }
                 }
             }
         }
