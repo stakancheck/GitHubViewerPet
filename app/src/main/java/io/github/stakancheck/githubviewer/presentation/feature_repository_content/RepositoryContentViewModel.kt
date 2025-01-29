@@ -97,7 +97,7 @@ class RepositoryContentViewModel(
     }
 
     private fun getEncodedPath(): String {
-        return _path.value.joinToString("/") { it.path }
+        return _path.value.lastOrNull()?.path ?: ""
     }
 
     companion object {
