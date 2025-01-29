@@ -19,6 +19,15 @@
   </a>
 </p>
 
+<p align="center">
+  <a href="https://youtu.be/w4TH-tgq1B0" style="text-decoration:none;">
+    <img src="https://img.shields.io/badge/Watch%20Video-FF0000?style=for-the-badge&logo=youtube&logoColor=white" alt="Watch Video">
+  </a>
+  <a href="https://github.com/stakancheck/GitHubViewerPet/releases/download/v1.0/githubviewer-release-1.0.apk" style="text-decoration:none;">
+    <img src="https://img.shields.io/badge/Download%20APK-00C853?style=for-the-badge&logo=android&logoColor=white" alt="Download APK">
+  </a>
+</p>
+
 ## 🔥 Описание
 GitHub Viewer - это приложение для просмотра репозиториев и профилей пользователей на GitHub. Оно позволяет легко находить и просматривать информацию о проектах и разработчиках.
 
