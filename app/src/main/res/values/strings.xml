@@ -34,4 +34,5 @@
     <string name="error_serialization_description">Произошла ошибка при обработке данных. Пожалуйста, попробуйте позже.</string>
     <string name="error_cancelled_description">Запрос был отменен. Пожалуйста, попробуйте снова.</string>
     <string name="error_unknown_description">Произошла неизвестная ошибка. Пожалуйста, попробуйте позже.</string>
+    <string name="app_desciption">Тестовое задание\n© Artem Sukhanov\na.sukhanov.work@gmail.com</string>
 </resources>

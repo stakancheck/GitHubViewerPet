@@ -15,13 +15,16 @@
 
 package io.github.stakancheck.githubviewer.presentation.feature_start
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeContent
 import androidx.compose.foundation.layout.safeDrawing
+import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -29,11 +32,15 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.dp
 import io.github.stakancheck.githubviewer.R
 import io.github.stakancheck.githubviewer.ui.components.Spacer
 import io.github.stakancheck.githubviewer.ui.values.Dimens
+import io.github.stakancheck.githubviewer.ui.values.IconSize
 
 
 @Composable
@@ -51,12 +58,30 @@ fun StartScreen(
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-            Text(
-                text = stringResource(R.string.app_header),
-                style = MaterialTheme.typography.headlineSmall,
+            Image(
+                modifier = Modifier.size(64.dp),
+                painter = painterResource(R.mipmap.ic_launcher),
+                contentDescription = stringResource(R.string.app_header)
             )
 
             Spacer(Dimens.spaceSmall)
+
+            Text(
+                text = stringResource(R.string.app_header),
+                style = MaterialTheme.typography.headlineSmall,
+                fontWeight = FontWeight.Bold,
+            )
+
+            Spacer(Dimens.spaceSmall)
+
+            Text(
+                modifier = Modifier.fillMaxWidth(),
+                textAlign = TextAlign.Center,
+                text = stringResource(R.string.app_desciption),
+                style = MaterialTheme.typography.titleMedium,
+            )
+
+            Spacer(Dimens.spaceMedium)
 
             Button(
                 onClick = {
