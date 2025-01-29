@@ -18,12 +18,9 @@ package io.github.stakancheck.githubviewer.presentation.feature_start
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.safeContent
-import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
@@ -40,7 +37,6 @@ import androidx.compose.ui.unit.dp
 import io.github.stakancheck.githubviewer.R
 import io.github.stakancheck.githubviewer.ui.components.Spacer
 import io.github.stakancheck.githubviewer.ui.values.Dimens
-import io.github.stakancheck.githubviewer.ui.values.IconSize
 
 
 @Composable
