@@ -1,3 +1,4 @@
+import com.android.build.api.variant.impl.VariantOutputImpl
 import java.io.FileInputStream
 import java.util.Properties
 
@@ -110,6 +111,17 @@ android {
     packaging {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
+        }
+    }
+
+    androidComponents {
+        onVariants { variant ->
+            variant.outputs.forEach { output ->
+                if (output is VariantOutputImpl) {
+                    output.outputFileName =
+                        "githubviewer-${variant.name}-${output.versionName.get()}.apk"
+                }
+            }
         }
     }
 }
