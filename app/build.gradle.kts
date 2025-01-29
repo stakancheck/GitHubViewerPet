@@ -14,6 +14,11 @@ val secretsPropertiesFile = rootProject.file("secrets.properties")
 val secretProperties = Properties()
 secretProperties.load(FileInputStream(secretsPropertiesFile))
 
+
+val keystorePropertiesFile = rootProject.file("signing/keystore.properties")
+val keystoreProperties = Properties()
+keystoreProperties.load(FileInputStream(keystorePropertiesFile))
+
 // Android configuration ---------------------------------------------------------------------------
 android {
     namespace = "io.github.stakancheck.githubviewer"
@@ -45,19 +50,48 @@ android {
         buildConfigField(
             "String",
             "GITHUB_API_TOKEN",
-            "\"${secretProperties.getProperty("GITHUB_API_TOKEN")}\"",
+            "\"${secretProperties.getProperty("githubApiToken")}\"",
         )
+    }
+
+    signingConfigs {
+        create("release") {
+            keyAlias = keystoreProperties["keyAliasRelease"] as String
+            keyPassword = keystoreProperties["keyPasswordRelease"] as String
+            storeFile = rootProject.file("signing/keystore.jks")
+            storePassword = keystoreProperties["storePassword"] as String
+        }
+
+        getByName("debug") {
+            keyAlias = keystoreProperties["keyAliasDebug"] as String
+            keyPassword = keystoreProperties["keyPasswordDebug"] as String
+            storeFile = rootProject.file("signing/keystore.jks")
+            storePassword = keystoreProperties["storePassword"] as String
+        }
     }
 
     buildTypes {
         release {
-            isMinifyEnabled = false
+            isMinifyEnabled = true
+            isDebuggable = false
+
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro",
+                "proguard-rules.pro"
             )
+
+            signingConfig = signingConfigs.getByName("release")
+        }
+
+        debug {
+            isDebuggable = true
+            applicationIdSuffix = ".debug"
+            versionNameSuffix = "-DEBUG"
+
+            signingConfig = signingConfigs.getByName("debug")
         }
     }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
